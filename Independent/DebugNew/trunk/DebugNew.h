@@ -43,6 +43,8 @@
             ::operator delete(pData);
         }
 
+        #include <assert.h>
+
     #endif  // #ifdef _DEBUG
 
 #endif  // #ifdef  __cplusplus
