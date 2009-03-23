@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy DebugNew.h ..\..\..\Include\"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
