@@ -49,7 +49,7 @@ namespace xl
         QIPtr(const QIPtr<T> &that);
 
         /**
-         * @brief Destroyer. Inside this function, the heap address will be released if there is no more references.
+         * @brief Destructor. Inside this function, the heap address will be released if there is no more references.
          */
         ~QIPtr();
     public:
