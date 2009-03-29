@@ -44,12 +44,29 @@ int main()
 {
     Array<int> a;
 
-    a.PushBack(10);
-    a.PushBack(12);
-    a.PushBack(2);
-    a.PushBack(3);
-    a.PushBack(4);
-    cout << a << endl;
+    for (int i = 0; i < 20; ++i)
+    {
+        a.PushBack(i);
+        cout << a << endl;
+    }
+
+    for (int i = 0; i < 10; ++i)
+    {
+        a.PopBack();
+        cout << a << endl;
+    }
+
+    for (int i = 0; i < 20; ++i)
+    {
+        a.PushFront(i);
+        cout << a << endl;
+    }
+
+    for (int i = 0; i < 10; ++i)
+    {
+        a.PopFront();
+        cout << a << endl;
+    }
 
     a.DeleteAt(2);
     cout << a << endl;

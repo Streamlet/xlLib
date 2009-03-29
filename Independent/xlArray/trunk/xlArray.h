@@ -530,7 +530,7 @@ namespace xl
             // and (the position to insert is near the front, or there is not enough space at the back)
 
             CopyData(m_pData + m_nStart - nCount, m_pData + m_nStart, nIndex);
-            CopyData(m_pData + m_nStart + nIndex, that.m_pData + that.m_nStart + nStart, nCount);
+            CopyData(m_pData + m_nStart - nCount + nIndex, that.m_pData + that.m_nStart + nStart, nCount);
             
             m_nStart -= nCount;
 
@@ -656,7 +656,7 @@ namespace xl
     template <typename T>
     inline void Array<T>::Release()
     {
-        if (m_nMemSize != NULL)
+        if (m_pData != NULL)
         {
             delete[] m_pData;
         }
