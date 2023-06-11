@@ -158,18 +158,18 @@
         <StringView>m_aData.m_pData+m_aData.m_nStart,s</StringView>
         <Expand>
             <ArrayItems>
-                <Size>m_aData.m_nEof-m_aData.m_nStart-1</Size>
+                <Size>m_aData.m_nLogicalSize-1</Size>
                 <ValuePointer>m_aData.m_pData+m_aData.m_nStart</ValuePointer>
             </ArrayItems>
         </Expand>
     </Type>
 
     <Type Name="xl::StringT&lt;wchar_t&gt;">
-        <DisplayString>{m_aData.m_pData+m_aData.m_nStart,su}</DisplayString>
+        <DisplayString>{m_aData.m_pBuffer+m_aData.m_nOffset,su}</DisplayString>
         <StringView>m_aData.m_pData+m_aData.m_nStart,su</StringView>
         <Expand>
             <ArrayItems>
-                <Size>m_aData.m_nEof-m_aData.m_nStart-1</Size>
+                <Size>m_aData.m_nLogicalSize-1</Size>
                 <ValuePointer>m_aData.m_pData+m_aData.m_nStart</ValuePointer>
             </ArrayItems>
         </Expand>
