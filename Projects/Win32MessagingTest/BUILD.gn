@@ -1,7 +1,10 @@
 assert(is_win)
 
 executable("Win32MessagingTest") {
-  configs = [ "../../build/config/win:windows_subsystem" ]
+  configs += [
+    "../../build_config:project_common",
+    "../../build/config/win:windows_subsystem",
+  ]
   sources = [ "Main.cpp" ]
   include_dirs = [ "../../Include" ]
   deps = [ "../../Include:xlLib" ]

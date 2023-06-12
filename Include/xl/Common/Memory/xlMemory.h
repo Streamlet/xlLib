@@ -23,17 +23,26 @@ namespace xl
 {
     namespace Memory
     {
-        __forceinline int Compare(const void *pBuf1, const void *pBuf2, size_t cbSize)
+#ifdef _MSC_VER
+        __forceinline
+#endif
+        int Compare(const void *pBuf1, const void *pBuf2, size_t cbSize)
         {
             return memcmp(pBuf1, pBuf2, cbSize);
         }
 
-        __forceinline void *Set(void *pDst, int byVal, size_t cbSize)
+#ifdef _MSC_VER
+        __forceinline
+#endif
+        void *Set(void *pDst, int byVal, size_t cbSize)
         {
             return memset(pDst, byVal, cbSize);
         }
 
-        __forceinline void *Copy(void *pDst, const void *pSrc, size_t cbSize)
+#ifdef _MSC_VER
+        __forceinline
+#endif
+        void *Copy(void *pDst, const void *pSrc, size_t cbSize)
         {
             return memmove(pDst, pSrc, cbSize);
         }
@@ -43,6 +52,16 @@ namespace xl
         {
             Set(&tVar, 0, sizeof(T));
         }
+
+#ifdef __XL_CPP11
+
+        template <typename T>
+        inline typename RemoveRef<T>::Type &&Move(T &&t)
+        {
+            return (typename RemoveRef<T>::Type &&)t;
+        }
+
+#endif
 
         template <typename T>
         inline typename EnableIf<(StdTypeDetect<T>::IsStdType || PtrTraits<T>::IsPtr) && !ArrayTraits<T>::IsArray, T>::Type *
@@ -80,16 +99,6 @@ namespace xl
 
             return pDst;
         }
-
-#ifdef __XL_CPP11
-
-        template <typename T>
-        inline typename RemoveRef<T>::Type &&Move(T &&t)
-        {
-            return (typename RemoveRef<T>::Type &&)t;
-        }
-
-#endif
 
         template <typename T>
         inline void Swap(T &t1, T &t2)

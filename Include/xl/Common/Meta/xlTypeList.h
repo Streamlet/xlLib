@@ -209,7 +209,7 @@ namespace xl
     template <typename TL, template <typename> typename FN, typename P>
     bool TLForeachInternal(P p, TL *)
     {
-        if (!FN<TLTypeAt<TL, 0>::Type>()(p))
+        if (!FN<typename TLTypeAt<TL, 0>::Type>()(p))
         {
             return false;
         }

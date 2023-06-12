@@ -24,11 +24,11 @@ namespace xl
 #define NULL 0
 #endif
 
-#if defined(_MSC_VER)
-
-#if _MSC_VER >= 1900
+#if _MSC_VER >= 1900 || __cplusplus >= 201103L
 #define __XL_CPP11
 #endif
+
+#if defined(_MSC_VER)
 
 #if _MSC_VER < 1600
 #define nullptr 0

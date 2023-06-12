@@ -486,26 +486,26 @@ namespace xl
         template <bool RR>
         inline typename EnableIf<RR == R && !R, BinTreeIteratorT<T, NodeType, R> &>::Type Increase()
         {
-            m_pNode = NextOf(m_pNode);
+            m_pNode = BinTreeIteratorBase<NodeType>::NextOf(m_pNode);
             return *this;
         }
         template <bool RR>
         inline typename EnableIf<RR == R && R, BinTreeIteratorT<T, NodeType, R> &>::Type Increase()
         {
-            m_pNode = PreviousOf(m_pNode);
+            m_pNode = BinTreeIteratorBase<NodeType>::PreviousOf(m_pNode);
             return *this;
         }
 
         template <bool RR>
         inline typename EnableIf<RR == R && !R, BinTreeIteratorT<T, NodeType, R> &>::Type Decrease()
         {
-            m_pNode = PreviousOf(m_pNode);
+            m_pNode = BinTreeIteratorBase<NodeType>::PreviousOf(m_pNode);
             return *this;
         }
         template <bool RR>
         inline typename EnableIf<RR == R && R, BinTreeIteratorT<T, NodeType, R> &>::Type Decrease()
         {
-            m_pNode = NextOf(m_pNode);
+            m_pNode = BinTreeIteratorBase<NodeType>::NextOf(m_pNode);
             return *this;
         }
 

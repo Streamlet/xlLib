@@ -19,9 +19,15 @@ int main()
     {
         for (int i = 0; i < 1000; ++i)
         {
+#ifdef _UNICODE
             std::wregex r;
             r.assign(L"http://([a-zA-Z0-9\\-]+.)+[a-zA-Z]+/");
             regex_match(L"http://w-1.w-2.w-3.streamlet.org/", r);
+#else
+            std::regex r;
+            r.assign("http://([a-zA-Z0-9\\-]+.)+[a-zA-Z]+/");
+            regex_match("http://w-1.w-2.w-3.streamlet.org/", r);
+#endif
         }
     }
     XL_END_PERF_TEST()
@@ -31,8 +37,13 @@ int main()
         for (int i = 0; i < 1000; ++i)
         {
             xl::RegExp r;
+#ifdef _UNICODE
             r.Parse(L"http://([a-zA-Z0-9\\-]+.)+[a-zA-Z]+/");
             r.Match(L"http://w-1.w-2.w-3.streamlet.org/");
+#else
+            r.Parse("http://([a-zA-Z0-9\\-]+.)+[a-zA-Z]+/");
+            r.Match("http://w-1.w-2.w-3.streamlet.org/");
+#endif
         }
     }
     XL_END_PERF_TEST()

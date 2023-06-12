@@ -36,8 +36,13 @@ namespace xl
         BigIntT(long long int64_value);
         BigIntT(unsigned long long uint64_value);
         BigIntT(unsigned char *buffer, size_t size);
+#ifdef _UNICODE
         BigIntT(const wchar_t *string_value, unsigned int base = 10, const String &alphabet = L"0123456789ABCDEF");
         BigIntT(const String &string_value, unsigned int base = 10, const String &alphabet = L"0123456789ABCDEF");
+#else
+        BigIntT(const wchar_t *string_value, unsigned int base = 10, const String &alphabet = "0123456789ABCDEF");
+        BigIntT(const String &string_value, unsigned int base = 10, const String &alphabet = "0123456789ABCDEF");
+#endif
         BigIntT(const BigIntT &that);
         BigIntT &operator = (const BigIntT &that);
         ~BigIntT();
@@ -96,9 +101,15 @@ namespace xl
         long long ToLongLong() const;
 
     public:
+#ifdef _UNICODE
         BigIntT &FromString(const wchar_t *string_value, unsigned int base = 10, const String &alphabet = L"0123456789ABCDEF");
         BigIntT &FromString(const String &string_value, unsigned int base = 10, const String &alphabet = L"0123456789ABCDEF");
         String ToString(unsigned int base = 10, const String &alphabet = L"0123456789ABCDEF") const;
+#else
+        BigIntT &FromString(const wchar_t *string_value, unsigned int base = 10, const String &alphabet = "0123456789ABCDEF");
+        BigIntT &FromString(const String &string_value, unsigned int base = 10, const String &alphabet = "0123456789ABCDEF");
+        String ToString(unsigned int base = 10, const String &alphabet = "0123456789ABCDEF") const;
+#endif
     };
 
     typedef BigIntT<unsigned int> BigInt;
@@ -1102,7 +1113,11 @@ namespace xl
     {
         if (base < 2 || base > (unsigned int)alphabet.Length())
         {
+#ifdef _UNICODE
             return L"";
+#else
+            return "";
+#endif
         }
 
         BigIntT<T> temp(*this);
@@ -1163,7 +1178,11 @@ namespace xl
 
         if (!this->m_bPositive)
         {
+#ifdef _UNICODE
             ret.AppendFront(L'-');
+#else
+            ret.AppendFront('-');
+#endif
         }
 
         return ret;

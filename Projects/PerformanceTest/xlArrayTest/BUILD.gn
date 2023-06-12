@@ -1,4 +1,5 @@
 executable("xlArrayTest") {
+  configs += [ "../../../build_config:project_common" ]
   sources = [ "Main.cpp" ]
   include_dirs = [ "../../../Include" ]
   deps = [ "../../../Include:xlLib" ]

@@ -273,11 +273,11 @@ namespace xl
             for (auto it = that.m_setEdges.Begin(); it != that.m_setEdges.End(); ++it)
             {
                 EdgePtr pOldEdge = *it;
-                EdgePtr pNewEdge = new EdgeType(pOldNode->tValue);
+                EdgePtr pNewEdge = new EdgeType(pOldEdge->tValue);
                 pNewEdge->pPrevious = pOldEdge->pPrevious;
                 pNewEdge->pNext = pOldEdge->pNext;
-                this->m_setEdges.Insert(pNewNode);
-                mapEdges.Insert(pNewNode, pOldEdge);
+                this->m_setEdges.Insert(pNewEdge);
+                mapEdges.Insert(pNewEdge, pOldEdge);
             }
 
             for (auto it = this->m_setNodes.Begin(); it != this->m_setNodes.End(); ++it)
@@ -324,7 +324,7 @@ namespace xl
 
             if (m_setNodes.Find(pNode) != m_setNodes.End())
             {
-                return false;
+                return nullptr;
             }
 
             m_setNodes.Insert(pNode);

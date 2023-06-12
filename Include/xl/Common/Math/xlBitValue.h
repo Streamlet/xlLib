@@ -29,7 +29,7 @@ namespace xl
             XL_ASSERT(nOffset + nBits <= sizeof(T) * 8);
             XL_ASSERT(nBits > 0 && nBits <= sizeof(R) * 8);
 
-            return (R)(((SizeToUnignedIntType<sizeof(T)>::Type)tData << nOffset) >> (sizeof(T) * 8 - nBits));
+            return (R)(((typename SizeToUnignedIntType<sizeof(T)>::Type)tData << nOffset) >> (sizeof(T) * 8 - nBits));
         }
 
 #ifdef __XL_CPP11

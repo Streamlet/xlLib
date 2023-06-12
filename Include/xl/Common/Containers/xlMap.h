@@ -28,14 +28,14 @@ namespace xl
 
         }
 
-        inline Map(const Map &that) : RBTree(that)
+        inline Map(const Map &that) : RBTree<Pair<K, V>>(that)
         {
 
         }
 
 #ifdef __XL_CPP11
 
-        inline Map(Map &&that) : RBTree(that)
+        inline Map(Map &&that) : RBTree<Pair<K, V>>(that)
         {
 
         }
@@ -49,7 +49,7 @@ namespace xl
                 return *this;
             }
 
-            *(RBTree *)this = (RBTree &)that;
+            *(RBTree<Pair<K, V>> *)this = (RBTree<Pair<K, V>> &)that;
 
             return *this;
         }
@@ -63,7 +63,7 @@ namespace xl
                 return *this;
             }
 
-            *(RBTree *)this = Memory::Move((RBTree &)that);
+            *(RBTree<Pair<K, V>> *)this = Memory::Move((RBTree<Pair<K, V>> &)that);
 
             return *this;
         }
@@ -72,21 +72,21 @@ namespace xl
 
         inline bool operator == (const Map &that) const
         {
-            return *(RBTree *)this == (RBTree &)that;
+            return *(RBTree<Pair<K, V>> *)this == (RBTree<Pair<K, V>> &)that;
         }
 
         inline bool operator != (const Map &that) const
         {
-            return *(RBTree *)this != (RBTree &)that;
+            return *(RBTree<Pair<K, V>> *)this != (RBTree<Pair<K, V>> &)that;
         }
 
         inline V &operator [] (const K &key)
         {
             Iterator it = Find(key);
 
-            if (it == End())
+            if (it == RBTree<Pair<K, V>>::End())
             {
-                it = RBTree::Insert(Pair<K, V>(key));
+                it = RBTree<Pair<K, V>>::Insert(Pair<K, V>(key));
             }
 
             return it->Value;
@@ -94,9 +94,9 @@ namespace xl
 
         inline const V &operator [] (const K &key) const
         {
-            Iterator it = Find(key);
+            Iterator it = RBTree<Pair<K, V>>::Find(key);
 
-            if (it == End())
+            if (it == RBTree<Pair<K, V>>::End())
             {
                 return V();
             }
@@ -118,31 +118,31 @@ namespace xl
 
     public:
         inline Iterator Delete(const Iterator& itWhere) {
-            return  RBTree::Delete(itWhere);
+            return  RBTree<Pair<K, V>>::Delete(itWhere);
         };
 
         inline ReverseIterator Delete(const ReverseIterator& itWhere) {
-            return  RBTree::Delete(itWhere);
+            return  RBTree<Pair<K, V>>::Delete(itWhere);
         }
 
         inline void Delete(const K &key)
         {
-            RBTree::Delete(Find(key));
+            RBTree<Pair<K, V>>::Delete(Find(key));
         }
 
         inline Iterator Find(const K &key)
         {
-            return RBTree::Find(Pair<K, V>(key));
+            return RBTree<Pair<K, V>>::Find(Pair<K, V>(key));
         }
 
         inline Iterator Insert(const xl::Pair<K, V> &pair)
         {
-            return RBTree::Insert(pair);
+            return RBTree<Pair<K, V>>::Insert(pair);
         }
 
         inline Iterator Insert(const K &key, const V &value)
         {
-            return RBTree::Insert(Pair<K, V>(key, value));
+            return RBTree<Pair<K, V>>::Insert(Pair<K, V>(key, value));
         }
     };
 

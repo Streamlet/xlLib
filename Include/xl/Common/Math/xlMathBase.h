@@ -74,42 +74,42 @@ namespace xl
 
         T &CX()
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         T &CY()
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         const T &CX() const
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         const T &CY() const
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         T &Width()
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         T &Height()
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         const T &Width() const
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         const T &Height() const
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         template <typename U>
@@ -167,22 +167,22 @@ namespace xl
 
         T &X()
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         T &Y()
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         const T &X() const
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         const T &Y() const
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         template <typename U>
@@ -228,82 +228,82 @@ namespace xl
 
         U &L()
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         U &T()
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         U &R()
         {
-            return At<2>();
+            return Base::template At<2>();
         }
 
         U &B()
         {
-            return At<3>();
+            return Base::template At<3>();
         }
 
         const U &L() const
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         const U &T() const
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         const U &R() const
         {
-            return At<2>();
+            return Base::template At<2>();
         }
 
         const U &B() const
         {
-            return At<3>();
+            return Base::template At<3>();
         }
 
         U &Left()
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         U &Top()
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         U &Right()
         {
-            return At<2>();
+            return Base::template At<2>();
         }
 
         U &Bottom()
         {
-            return At<3>();
+            return Base::template At<3>();
         }
 
         const U &Left() const
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         const U &Top() const
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         const U &Right() const
         {
-            return At<2>();
+            return Base::template At<2>();
         }
 
         const U &Bottom() const
         {
-            return At<3>();
+            return Base::template At<3>();
         }
 
         const U &X() const
@@ -461,82 +461,82 @@ namespace xl
 
         T &A()
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         T &R()
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         T &G()
         {
-            return At<2>();
+            return Base::template At<2>();
         }
 
         T &B()
         {
-            return At<3>();
+            return Base::template At<3>();
         }
 
         const T &A() const
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         const T &R() const
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         const T &G() const
         {
-            return At<2>();
+            return Base::template At<2>();
         }
 
         const T &B() const
         {
-            return At<3>();
+            return Base::template At<3>();
         }
 
         T &Alpha()
         {
-            return At<3>();
+            return Base::template At<3>();
         }
 
         T &Red()
         {
-            return At<2>();
+            return Base::template At<2>();
         }
 
         T &Green()
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         T &Blue()
         {
-            return At<0>();
+            return Base::template At<0>();
         }
 
         const T &Alpha() const
         {
-            return At<3>();
+            return Base::template At<3>();
         }
 
         const T &Red() const
         {
-            return At<2>();
+            return Base::template At<2>();
         }
 
         const T &Green() const
         {
-            return At<1>();
+            return Base::template At<1>();
         }
 
         const T &Blue() const
         {
-            return At<0>();
+            return Base::template At<0>();
         }
     };
 

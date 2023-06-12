@@ -1,4 +1,6 @@
 source_set("xlLib") {
+  configs += [ "../build_config:project_common" ]
+
   sources = [
     "xl/AppHelper/xlPerfTest.h",
     "xl/AppHelper/xlUnitTest.h",

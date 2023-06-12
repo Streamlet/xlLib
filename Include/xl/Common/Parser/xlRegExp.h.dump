@@ -327,11 +327,8 @@ namespace xl
         {
             GroupType eType;
             String strName;
-#ifdef _UNICODE
-            Group(GroupType eType, String strName = "")
-#else
-            Group(GroupType eType, String strName = "")
-#endif
+
+            Group(GroupType eType, String strName = L"")
                 : eType(eType), strName(strName)
             {
 
@@ -382,26 +379,26 @@ namespace xl
             EBNF:
             
             Expr                -> SubExpr Expr'
-            Expr'               -> "|" SubExpr Expr' | ��
+            Expr'               -> "|" SubExpr Expr' | ε
             SubExpr             -> Phrase SubExpr'
-            SubExpr'            -> Phrase SubExpr' | ��
+            SubExpr'            -> Phrase SubExpr' | ε
             Phrase              -> Word Repeater
-            Repeater            -> Counter Greeder | ��
+            Repeater            -> Counter Greeder | ε
             Counter             -> "?" | "+" | "*" | "{" RangeCounter "}"
             RangeCounter        -> Integer RangeCounterSuffix
-            RangeCounterSuffix  -> "," Integer | ��
-            Integer             -> Digit Integer | ��
-            Greeder             -> "?" | ��
+            RangeCounterSuffix  -> "," Integer | ε
+            Integer             -> Digit Integer | ε
+            Greeder             -> "?" | ε
             Word                -> "(" GroupFlag Expr ")" | Collection | Char
-            GroupFlag           -> "?" GroupFlagContent | ��
+            GroupFlag           -> "?" GroupFlagContent | ε
             GroupFlagContent    -> "=" | "!" | "<=" | "<!" | ":" | "<" GroupName ">"
-            GroupName           -> IdChar GroupName | ��
+            GroupName           -> IdChar GroupName | ε
             Collection          -> "[" Reverser IntervalSet "]" | "." | "\" CharSetDescriptor
-            Reverser            -> "^" | ��
-            IntervalSet         -> IntervalSetItem IntervalSet | ��
+            Reverser            -> "^" | ε
+            IntervalSet         -> IntervalSetItem IntervalSet | ε
             IntervalSetItem     -> "." | "\" CharSetDescriptor | Interver
             Interver            -> Char InterverSuffix
-            InterverSuffix      -> "-" Char | ��
+            InterverSuffix      -> "-" Char | ε
             CharSetDescriptor   -> "d" | "D" | "f" | "n" | "r" | "s" | "S" | "t" | "v" | "w" | "W" | "x" Hex02 | "u" Hex04
 
         */
@@ -1246,10 +1243,7 @@ namespace xl
         }
     };
 
-#ifdef _MSC_VER
-    __declspec(selectany)
-#endif
-    int RegExp::Node::ms_nCounter = 0;
+    __declspec(selectany) int RegExp::Node::ms_nCounter = 0;
 
 } // namespace xl
 
