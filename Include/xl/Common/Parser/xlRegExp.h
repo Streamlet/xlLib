@@ -12,7 +12,6 @@
 #ifndef __XLREGEXP_H_0FCC5122_D6F3_4E9E_AAB0_5D268E87ED44_INCLUDED__
 #define __XLREGEXP_H_0FCC5122_D6F3_4E9E_AAB0_5D268E87ED44_INCLUDED__
 
-
 #include "../../xlDef.h"
 #include "../Containers/xlGraph.h"
 #include "../Containers/xlArray.h"
@@ -27,12 +26,10 @@ namespace xl
     public:
         RegExp()
         {
-
         }
 
         ~RegExp()
         {
-
         }
 
     private:
@@ -40,7 +37,6 @@ namespace xl
         {
             Node() : m_nIdentify(++ms_nCounter), m_nPasses(0)
             {
-
             }
 
             void ClearState()
@@ -59,19 +55,16 @@ namespace xl
             Edge()
                 : bReverse(false), bEpsilon(true), chBegin(0), chEnd(0), nMinNodePasses(0), nMaxNodePasses(-1), nRollbackChars(0)
             {
-
             }
 
             Edge(Char ch)
                 : bReverse(false), bEpsilon(false), chBegin(ch), chEnd(ch), nMinNodePasses(0), nMaxNodePasses(-1), nRollbackChars(0)
             {
-
             }
 
             Edge(Char chBegin, Char chEnd)
                 : bReverse(false), bEpsilon(false), chBegin(chBegin), chEnd(chEnd), nMinNodePasses(0), nMaxNodePasses(-1), nRollbackChars(0)
             {
-
             }
 
             bool MatchNoReverse(Char ch)
@@ -122,7 +115,7 @@ namespace xl
         typedef SharedPtr<StateMachine> StateMachinePtr;
 
     private:
-        StateMachinePtr       m_spStateMachine;
+        StateMachinePtr m_spStateMachine;
         StateMachine::NodePtr m_pBegin;
         StateMachine::NodePtr m_pEnd;
         String m_strRegExp;
@@ -160,7 +153,6 @@ namespace xl
     private:
         void FixStateMachine()
         {
-
         }
 
         bool Match(const String &s, int i, StateMachine::NodePtr pNode, int *pnPos = nullptr)
@@ -222,10 +214,9 @@ namespace xl
         }
 
     private:
-
         static const Char InvalidChar = -1;
 
-        struct Token 
+        struct Token
         {
             Char type;
             Char ch;
@@ -234,12 +225,10 @@ namespace xl
             Token(Char type = InvalidChar, Char ch = InvalidChar, size_t length = 1)
                 : type(type), ch(ch), length(length)
             {
-
             }
         };
 
     private:
-
         bool IsSpecialCharacter(Char ch)
         {
             switch (ch)
@@ -308,7 +297,6 @@ namespace xl
             Repeator()
                 : bGreedy(true), iMinRepeats(-1), iMaxRepeats(-1)
             {
-
             }
         };
 
@@ -328,20 +316,19 @@ namespace xl
             GroupType eType;
             String strName;
 #ifdef _UNICODE
-            Group(GroupType eType, String strName = "")
+            Group(GroupType eType, String strName = L"")
 #else
             Group(GroupType eType, String strName = "")
 #endif
                 : eType(eType), strName(strName)
             {
-
             }
         };
 
         enum SpecialIntegerValue
         {
-            Integer_Blank   = -1,
-            Integer_None    = -2,
+            Integer_Blank = -1,
+            Integer_None = -2,
         };
 
         struct Integer
@@ -352,7 +339,6 @@ namespace xl
             Integer()
                 : iValue(Integer_Blank), iNextFactor(0)
             {
-
             }
 
             void AddHighDigit(int i)
@@ -371,7 +357,7 @@ namespace xl
                 }
             }
 
-            operator int () const
+            operator int() const
             {
                 return iValue;
             }
@@ -380,7 +366,7 @@ namespace xl
     private:
         /*
             EBNF:
-            
+
             Expr                -> SubExpr Expr'
             Expr'               -> "|" SubExpr Expr' | ��
             SubExpr             -> Phrase SubExpr'
@@ -511,7 +497,7 @@ namespace xl
             {
                 return pNode;
             }
-        
+
             StateMachine::NodePtr pSubExprPrime = ParseSubExprPrime(pPhrase);
 
             if (pSubExprPrime == nullptr)
@@ -563,12 +549,12 @@ namespace xl
             if (r.iMaxRepeats != 0)
             {
                 StateMachine::EdgePtr pEdgeCurrentToNode = NewEdge();
-                StateMachine::EdgePtr pEdgeCurrentToTo   = NewEdge();
+                StateMachine::EdgePtr pEdgeCurrentToTo = NewEdge();
 
                 if (r.bGreedy)
                 {
                     m_spStateMachine->AddEdge(pEdgeCurrentToNode, pCurrent, pNode);
-                    m_spStateMachine->AddEdge(pEdgeCurrentToTo,   pCurrent, pTo);
+                    m_spStateMachine->AddEdge(pEdgeCurrentToTo, pCurrent, pTo);
                 }
                 else
                 {
@@ -884,45 +870,45 @@ namespace xl
             switch (token.type)
             {
             case L'.':
-                {
-                    is.Union(Interval<Char>(0, -1));
-                    is.Exclude(Interval<Char>(L'\n'));
-                    is.MakeClose(1);
-                }
-                break;
+            {
+                is.Union(Interval<Char>(0, -1));
+                is.Exclude(Interval<Char>(L'\n'));
+                is.MakeClose(1);
+            }
+            break;
             case L'\\':
-                {
-                    IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
+            {
+                IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
 
-                    if (isCharSet.IsEmpty())
-                    {
-                        return nullptr;
-                    }
-                    else
-                    {
-                        is = is.Union(isCharSet);
-                    }
+                if (isCharSet.IsEmpty())
+                {
+                    return nullptr;
                 }
-                break;
+                else
+                {
+                    is = is.Union(isCharSet);
+                }
+            }
+            break;
             case L'[':
+            {
+                bReverse = ParseReverser();
+                is = ParseIntervalSet();
+
+                token = LookAhead();
+
+                if (token.type != L']')
                 {
-                    bReverse = ParseReverser();
-                    is = ParseIntervalSet();
-
-                    token = LookAhead();
-
-                    if (token.type != L']')
-                    {
-                        Backward(token);
-                        return nullptr;
-                    }
-
-                    if (is.IsEmpty())
-                    {
-                        return nullptr;
-                    }
+                    Backward(token);
+                    return nullptr;
                 }
-                break;
+
+                if (is.IsEmpty())
+                {
+                    return nullptr;
+                }
+            }
+            break;
             default:
                 Backward(token);
                 return nullptr;
@@ -1008,33 +994,33 @@ namespace xl
             switch (token.type)
             {
             case L'.':
-                {
-                    is.Union(Interval<Char>(0, -1));
-                    is.Exclude(Interval<Char>(L'\n'));
-                    is.MakeClose(1);
-                }
-                break;
+            {
+                is.Union(Interval<Char>(0, -1));
+                is.Exclude(Interval<Char>(L'\n'));
+                is.MakeClose(1);
+            }
+            break;
             case L'\\':
-                {
-                    IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
+            {
+                IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
 
-                    if (isCharSet.IsEmpty())
-                    {
-                        Backward(token);
-                    }
-                    else
-                    {
-                        is = is.Union(isCharSet);
-                    }
-                }
-                break;
-            default:
+                if (isCharSet.IsEmpty())
                 {
                     Backward(token);
-                    Interval<Char> i = ParseInterval();
-                    is.Union(i);
                 }
-                break;
+                else
+                {
+                    is = is.Union(isCharSet);
+                }
+            }
+            break;
+            default:
+            {
+                Backward(token);
+                Interval<Char> i = ParseInterval();
+                is.Union(i);
+            }
+            break;
             }
 
             return is;
@@ -1093,31 +1079,31 @@ namespace xl
                 is.MakeClose(1);
                 break;
             case L'x':
+            {
+                int iValue = ParseHex0x(2);
+                if (iValue >= 0)
                 {
-                    int iValue = ParseHex0x(2);
-                    if (iValue >= 0)
-                    {
-                        is.Union(Interval<Char>((Char)iValue));
-                    }
-                    else
-                    {
-                        Backward(token);
-                    }
+                    is.Union(Interval<Char>((Char)iValue));
                 }
-                break;
+                else
+                {
+                    Backward(token);
+                }
+            }
+            break;
             case L'u':
+            {
+                int iValue = ParseHex0x(4);
+                if (iValue >= 0)
                 {
-                    int iValue = ParseHex0x(4);
-                    if (iValue >= 0)
-                    {
-                        is.Union(Interval<Char>((Char)iValue));
-                    }
-                    else
-                    {
-                        Backward(token);
-                    }
+                    is.Union(Interval<Char>((Char)iValue));
                 }
-                break;
+                else
+                {
+                    Backward(token);
+                }
+            }
+            break;
                 break;
             default:
                 Backward(token);
@@ -1249,7 +1235,7 @@ namespace xl
 #ifdef _MSC_VER
     __declspec(selectany)
 #endif
-    int RegExp::Node::ms_nCounter = 0;
+        int RegExp::Node::ms_nCounter = 0;
 
 } // namespace xl
 

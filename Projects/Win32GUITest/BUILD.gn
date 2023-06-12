@@ -6,6 +6,12 @@ executable("Win32GUITest") {
     "../../build/config/win:windows_subsystem",
   ]
   sources = [ "Main.cpp" ]
+  libs = [
+    "gdi32.lib",
+    "kernel32.lib",
+    "user32.lib",
+    "shell32.lib",
+  ]
   include_dirs = [ "../../Include" ]
   deps = [ "../../Include:xlLib" ]
 }
