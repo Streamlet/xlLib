@@ -1,8 +1,4 @@
 .*
 /build/
+/thirdparty/
 /out/
-/bin/
-/obj/
-*.VC.db
-*.VC.opendb
-*.vcxproj.user
