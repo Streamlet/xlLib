@@ -33,7 +33,7 @@ namespace xl
         template <typename T>
         bool DereferencingComparaor(const T &t1, const T &t2)
         {
-            return *ti < *t2;
+            return *t1 < *t2;
         }
     
         template <typename T>

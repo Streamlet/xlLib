@@ -13,6 +13,12 @@
 #include "../../../../Include/xl/Common/Math/xlBigInt.h"
 #include "../../../../Include/xl/AppHelper/xlUnitTest.h"
 
+#ifdef _UNICODE
+#define _T(s) L ## s
+#else
+#define _T(s) s
+#endif
+
 namespace
 {
     using namespace xl;
@@ -196,15 +202,15 @@ namespace
         XL_TEST_ASSERT(BigInt(L"1234567123", 8) == 01234567123);
         XL_TEST_ASSERT(BigInt(L"12345678", 9) == 6053444);
 
-        XL_TEST_ASSERT(BigInt(L"wertyuiopq", 10, L"qwertyuiop") == 1234567890);
-        XL_TEST_ASSERT(BigInt(L"sdfghjklzaxcvbnm", 16, L"asdfghjklzxcvbnm") == 0x1234567890abcdef);
-        XL_TEST_ASSERT(BigInt(L"zxcvbnmzxc", 8, L"0zxcvbnm") == 01234567123);
-        XL_TEST_ASSERT(BigInt(L"[];',./{", 9, L"}[];',./{") == 6053444);
+        XL_TEST_ASSERT(BigInt(L"wertyuiopq", 10, _T("qwertyuiop")) == 1234567890);
+        XL_TEST_ASSERT(BigInt(L"sdfghjklzaxcvbnm", 16, _T("asdfghjklzxcvbnm")) == 0x1234567890abcdef);
+        XL_TEST_ASSERT(BigInt(L"zxcvbnmzxc", 8, _T("0zxcvbnm")) == 01234567123);
+        XL_TEST_ASSERT(BigInt(L"[];',./{", 9, _T("}[];',./{")) == 6053444);
 
-        XL_TEST_ASSERT(BigInt(L"1234567890").ToString() == String(L"1234567890"));
-        XL_TEST_ASSERT(BigInt(L"1234567890").ToString(16) == String(L"499602D2"));
-        XL_TEST_ASSERT(BigInt(L"1234567890").ToString(8) == String(L"11145401322"));
-        XL_TEST_ASSERT(BigInt(L"1234567890").ToString(2) == String(L"1001001100101100000001011010010"));
+        XL_TEST_ASSERT(BigInt(L"1234567890").ToString() == String(_T("1234567890")));
+        XL_TEST_ASSERT(BigInt(L"1234567890").ToString(16) == String(_T("499602D2")));
+        XL_TEST_ASSERT(BigInt(L"1234567890").ToString(8) == String(_T("11145401322")));
+        XL_TEST_ASSERT(BigInt(L"1234567890").ToString(2) == String(_T("1001001100101100000001011010010")));
 
         typedef BigIntT<unsigned short> BigIntT16;
 
@@ -213,15 +219,15 @@ namespace
         XL_TEST_ASSERT(BigIntT16(L"1234567123", 8) == 01234567123);
         XL_TEST_ASSERT(BigIntT16(L"12345678", 9) == 6053444);
 
-        XL_TEST_ASSERT(BigIntT16(L"wertyuiopq", 10, L"qwertyuiop") == 1234567890);
-        XL_TEST_ASSERT(BigIntT16(L"sdfghjklzaxcvbnm", 16, L"asdfghjklzxcvbnm") == 0x1234567890abcdef);
-        XL_TEST_ASSERT(BigIntT16(L"zxcvbnmzxc", 8, L"0zxcvbnm") == 01234567123);
-        XL_TEST_ASSERT(BigIntT16(L"[];',./{", 9, L"}[];',./{") == 6053444);
+        XL_TEST_ASSERT(BigIntT16(L"wertyuiopq", 10, _T("qwertyuiop")) == 1234567890);
+        XL_TEST_ASSERT(BigIntT16(L"sdfghjklzaxcvbnm", 16, _T("asdfghjklzxcvbnm")) == 0x1234567890abcdef);
+        XL_TEST_ASSERT(BigIntT16(L"zxcvbnmzxc", 8, _T("0zxcvbnm")) == 01234567123);
+        XL_TEST_ASSERT(BigIntT16(L"[];',./{", 9, _T("}[];',./{")) == 6053444);
 
-        XL_TEST_ASSERT(BigIntT16(L"1234567890").ToString() == String(L"1234567890"));
-        XL_TEST_ASSERT(BigIntT16(L"1234567890").ToString(16) == String(L"499602D2"));
-        XL_TEST_ASSERT(BigIntT16(L"1234567890").ToString(8) == String(L"11145401322"));
-        XL_TEST_ASSERT(BigIntT16(L"1234567890").ToString(2) == String(L"1001001100101100000001011010010"));
+        XL_TEST_ASSERT(BigIntT16(L"1234567890").ToString() == String(_T("1234567890")));
+        XL_TEST_ASSERT(BigIntT16(L"1234567890").ToString(16) == String(_T("499602D2")));
+        XL_TEST_ASSERT(BigIntT16(L"1234567890").ToString(8) == String(_T("11145401322")));
+        XL_TEST_ASSERT(BigIntT16(L"1234567890").ToString(2) == String(_T("1001001100101100000001011010010")));
 
 
         typedef BigIntT<unsigned char> BigIntT8;
@@ -231,15 +237,15 @@ namespace
         XL_TEST_ASSERT(BigIntT8(L"1234567123", 8) == 01234567123);
         XL_TEST_ASSERT(BigIntT8(L"12345678", 9) == 6053444);
 
-        XL_TEST_ASSERT(BigIntT8(L"wertyuiopq", 10, L"qwertyuiop") == 1234567890);
-        XL_TEST_ASSERT(BigIntT8(L"sdfghjklzaxcvbnm", 16, L"asdfghjklzxcvbnm") == 0x1234567890abcdef);
-        XL_TEST_ASSERT(BigIntT8(L"zxcvbnmzxc", 8, L"0zxcvbnm") == 01234567123);
-        XL_TEST_ASSERT(BigIntT8(L"[];',./{", 9, L"}[];',./{") == 6053444);
+        XL_TEST_ASSERT(BigIntT8(L"wertyuiopq", 10, _T("qwertyuiop")) == 1234567890);
+        XL_TEST_ASSERT(BigIntT8(L"sdfghjklzaxcvbnm", 16, _T("asdfghjklzxcvbnm")) == 0x1234567890abcdef);
+        XL_TEST_ASSERT(BigIntT8(L"zxcvbnmzxc", 8, _T("0zxcvbnm")) == 01234567123);
+        XL_TEST_ASSERT(BigIntT8(L"[];',./{", 9, _T("}[];',./{")) == 6053444);
 
-        XL_TEST_ASSERT(BigIntT8(L"1234567890").ToString() == String(L"1234567890"));
-        XL_TEST_ASSERT(BigIntT8(L"1234567890").ToString(16) == String(L"499602D2"));
-        XL_TEST_ASSERT(BigIntT8(L"1234567890").ToString(8) == String(L"11145401322"));
-        XL_TEST_ASSERT(BigIntT8(L"1234567890").ToString(2) == String(L"1001001100101100000001011010010"));
+        XL_TEST_ASSERT(BigIntT8(L"1234567890").ToString() == String(_T("1234567890")));
+        XL_TEST_ASSERT(BigIntT8(L"1234567890").ToString(16) == String(_T("499602D2")));
+        XL_TEST_ASSERT(BigIntT8(L"1234567890").ToString(8) == String(_T("11145401322")));
+        XL_TEST_ASSERT(BigIntT8(L"1234567890").ToString(2) == String(_T("1001001100101100000001011010010")));
     }
 
 #define P_512   L"BF273099C31081FA8F32819C4D5C219579A9430B5B594FB3825F5929B77D1813"

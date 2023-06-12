@@ -23,7 +23,7 @@ namespace
 
         for (size_t i = 0; i < xl::SHA1::DIGEST_LENGTH; ++i)
         {
-            sprintf_s(&szDigest[i * 8], 9, "%08x", digest[i]);
+            sprintf(&szDigest[i * 8], "%08x", digest[i]);
         }
 
         return szDigest;

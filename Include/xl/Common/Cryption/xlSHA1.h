@@ -40,7 +40,7 @@ namespace xl
         }
 
     public:
-        void SHA1::AppendData(const void *lpBuffer, size_t cbSize)
+        void AppendData(const void *lpBuffer, size_t cbSize)
         {
             size_t cbCopied = 0;
 
@@ -63,7 +63,7 @@ namespace xl
             m_cbTotalSize += cbSize;
         }
 
-        void SHA1::GetDigest(Digest &digest)
+        void GetDigest(Digest &digest)
         {
             if (m_cbBufferUsed >= BUFFER_LIMIT)
             {
@@ -108,7 +108,7 @@ namespace xl
         unsigned long long m_cbTotalSize;
 
     private:
-        void SHA1::Initialize()
+        void Initialize()
         {
             Memory::Zero(m_ctx);
             Memory::Copy(m_ctx.digest, STATE, sizeof(m_ctx.digest));
@@ -213,7 +213,7 @@ namespace xl
 
         static inline unsigned int BitSwap(unsigned int x)
         {
-#ifdef _WIN64
+#if defined(_WIN64) || !defined(_MSC_VER)
             unsigned int result = 0;
 
             for (size_t i = 0; i < sizeof(unsigned int); ++i)

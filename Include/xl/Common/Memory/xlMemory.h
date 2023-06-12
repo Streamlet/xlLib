@@ -25,6 +25,8 @@ namespace xl
     {
 #ifdef _MSC_VER
         __forceinline
+#else
+        inline
 #endif
         int Compare(const void *pBuf1, const void *pBuf2, size_t cbSize)
         {
@@ -33,6 +35,8 @@ namespace xl
 
 #ifdef _MSC_VER
         __forceinline
+#else
+        inline
 #endif
         void *Set(void *pDst, int byVal, size_t cbSize)
         {
@@ -41,6 +45,8 @@ namespace xl
 
 #ifdef _MSC_VER
         __forceinline
+#else
+        inline
 #endif
         void *Copy(void *pDst, const void *pSrc, size_t cbSize)
         {

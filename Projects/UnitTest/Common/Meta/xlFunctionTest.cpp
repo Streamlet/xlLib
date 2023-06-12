@@ -37,6 +37,7 @@ namespace
 
     }
 
+#ifdef _MSC_VER
     void __stdcall voidstdcall0()
     {
 
@@ -56,7 +57,9 @@ namespace
     {
 
     }
+#endif
 
+#ifdef _MSC_VER
     void __fastcall voidfastcall0()
     {
 
@@ -76,6 +79,7 @@ namespace
     {
 
     }
+#endif
 
     int __cdecl cdecl0()
     {
@@ -97,6 +101,7 @@ namespace
         return a * 100 + b * 10 + c;
     }
 
+#ifdef _MSC_VER
     int __stdcall stdcall0()
     {
         return 0;
@@ -116,7 +121,9 @@ namespace
     {
         return a * 100 + b * 10 + c;
     }
+#endif
 
+#ifdef _MSC_VER
     int __fastcall fastcall0()
     {
         return 0;
@@ -136,6 +143,7 @@ namespace
     {
         return a * 100 + b * 10 + c;
     }
+#endif
 
     struct S
     {
@@ -159,6 +167,7 @@ namespace
 
         }
 
+#ifdef _MSC_VER
         void __stdcall voidstdcall0()
         {
 
@@ -178,7 +187,9 @@ namespace
         {
 
         }
+#endif
 
+#ifdef _MSC_VER
         void __fastcall voidfastcall0()
         {
 
@@ -198,7 +209,9 @@ namespace
         {
 
         }
+#endif
 
+#ifdef _MSC_VER
         void __thiscall voidthiscall0()
         {
 
@@ -218,6 +231,7 @@ namespace
         {
 
         }
+#endif
 
         int __cdecl cdecl0()
         {
@@ -239,6 +253,7 @@ namespace
             return a * 100 + b * 10 + c;
         }
 
+#ifdef _MSC_VER
         int __stdcall stdcall0()
         {
             return 0;
@@ -258,7 +273,9 @@ namespace
         {
             return a * 100 + b * 10 + c;
         }
+#endif
 
+#ifdef _MSC_VER
         int __fastcall fastcall0()
         {
             return 0;
@@ -278,7 +295,9 @@ namespace
         {
             return a * 100 + b * 10 + c;
         }
+#endif
 
+#ifdef _MSC_VER
         int __thiscall thiscall0()
         {
             return 0;
@@ -298,7 +317,7 @@ namespace
         {
             return a * 100 + b * 10 + c;
         }
-
+#endif
     } s;
 
     struct VOIDF
@@ -384,6 +403,7 @@ namespace
         Function<void (int, int, int)>void3(voidcdecl3);
     }
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         Function<void ()>             void0(voidstdcall0);
@@ -391,7 +411,9 @@ namespace
         Function<void (int, int)>     void2(voidstdcall2);
         Function<void (int, int, int)>void3(voidstdcall3);
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         Function<void ()>             void0(voidfastcall0);
@@ -399,6 +421,7 @@ namespace
         Function<void (int, int)>     void2(voidfastcall2);
         Function<void (int, int, int)>void3(voidfastcall3);
     }
+#endif
 
     XL_TEST_CASE()
     {
@@ -408,6 +431,7 @@ namespace
         Function<void (int, int, int)>void3(&s, &S::voidcdecl3);
     }
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         Function<void ()>             void0(&s, &S::voidstdcall0);
@@ -415,7 +439,9 @@ namespace
         Function<void (int, int)>     void2(&s, &S::voidstdcall2);
         Function<void (int, int, int)>void3(&s, &S::voidstdcall3);
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         Function<void ()>             void0(&s, &S::voidfastcall0);
@@ -423,7 +449,9 @@ namespace
         Function<void (int, int)>     void2(&s, &S::voidfastcall2);
         Function<void (int, int, int)>void3(&s, &S::voidfastcall3);
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         Function<void ()>             void0(&s, &S::voidthiscall0);
@@ -431,6 +459,7 @@ namespace
         Function<void (int, int)>     void2(&s, &S::voidthiscall2);
         Function<void (int, int, int)>void3(&s, &S::voidthiscall3);
     }
+#endif
 
     XL_TEST_CASE()
     {
@@ -448,6 +477,7 @@ namespace
         XL_TEST_ASSERT(Function<int (int, int, int)>(cdecl3)(1, 2, 3) == 123);
     }
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Function<int ()>             (stdcall0)() == 0);
@@ -455,7 +485,9 @@ namespace
         XL_TEST_ASSERT(Function<int (int, int)>     (stdcall2)(1, 2) == 12);
         XL_TEST_ASSERT(Function<int (int, int, int)>(stdcall3)(1, 2, 3) == 123);
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Function<int ()>             (fastcall0)() == 0);
@@ -463,6 +495,7 @@ namespace
         XL_TEST_ASSERT(Function<int (int, int)>     (fastcall2)(1, 2) == 12);
         XL_TEST_ASSERT(Function<int (int, int, int)>(fastcall3)(1, 2, 3) == 123);
     }
+#endif
 
     XL_TEST_CASE()
     {
@@ -472,6 +505,7 @@ namespace
         XL_TEST_ASSERT(Function<int (int, int, int)>(&s, &S::cdecl3)(1, 2, 3) == 123);
     }
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Function<int ()>             (&s, &S::stdcall0)() == 0);
@@ -479,7 +513,9 @@ namespace
         XL_TEST_ASSERT(Function<int (int, int)>     (&s, &S::stdcall2)(1, 2) == 12);
         XL_TEST_ASSERT(Function<int (int, int, int)>(&s, &S::stdcall3)(1, 2, 3) == 123);
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Function<int ()>             (&s, &S::fastcall0)() == 0);
@@ -487,7 +523,9 @@ namespace
         XL_TEST_ASSERT(Function<int (int, int)>     (&s, &S::fastcall2)(1, 2) == 12);
         XL_TEST_ASSERT(Function<int (int, int, int)>(&s, &S::fastcall3)(1, 2, 3) == 123);
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Function<int ()>             (&s, &S::thiscall0)() == 0);
@@ -495,6 +533,7 @@ namespace
         XL_TEST_ASSERT(Function<int (int, int)>     (&s, &S::thiscall2)(1, 2) == 12);
         XL_TEST_ASSERT(Function<int (int, int, int)>(&s, &S::thiscall3)(1, 2, 3) == 123);
     }
+#endif
 
     XL_TEST_CASE()
     {

@@ -63,7 +63,7 @@ namespace xl
             m_cbTotalSize += cbSize;
         }
 
-        void MD5::GetDigest(Digest &digest)
+        void GetDigest(Digest &digest)
         {
             if (m_cbBufferUsed >= BUFFER_LIMIT)
             {

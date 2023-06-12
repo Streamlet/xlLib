@@ -49,7 +49,10 @@ namespace xl
 #define XL_BIND_VARIABLE_LIST_PATTERN(n)        static_cast<A##n &&>(a##n)
 #define XL_BIND_VARIABLE_LIST(n)                XL_REPZ(XL_BIND_VARIABLE_LIST_PATTERN, n, XL_COMMA)
 
-#define XL_BIND_ARGUMENTS_QUERY_PATTERN(n)      a[static_cast<A##n &&>(a##n)]
+#define XL_BIND_VARIABLE_LIST_PATTERN_B(n)      static_cast<A##n &&>(Base::a##n)
+#define XL_BIND_VARIABLE_LIST_B(n)              XL_REPZ(XL_BIND_VARIABLE_LIST_PATTERN_B, n, XL_COMMA)
+
+#define XL_BIND_ARGUMENTS_QUERY_PATTERN(n)      a[static_cast<A##n &&>(Base::a##n)]
 #define XL_BIND_ARGUMENTS_QUERY(n)              XL_REPZ(XL_BIND_ARGUMENTS_QUERY_PATTERN, n, XL_COMMA)
 
 #else
@@ -77,8 +80,11 @@ namespace xl
 #define XL_BIND_VARIABLE_LIST_PATTERN(n)        static_cast<A##n>(a##n)
 #define XL_BIND_VARIABLE_LIST(n)                XL_REPZ(XL_BIND_VARIABLE_LIST_PATTERN, n, XL_COMMA)
 
-#define XL_BIND_ARGUMENTS_QUERY_PATTERN(n)      a[static_cast<A##n &>(a##n)]
-#define XL_BIND_ARGUMENTS_QUERY(n)              XL_REPZ(XL_BIND_ARGUMENTS_QUERY_PATTERN, n, XL_COMMA)
+#define XL_BIND_VARIABLE_LIST_PATTERN_B(n)       static_cast<A##n>(Base::a##n)
+#define XL_BIND_VARIABLE_LIST_B(n)               XL_REPZ(XL_BIND_VARIABLE_LIST_PATTERN_B, n, b, XL_COMMA)
+
+#define XL_BIND_ARGUMENTS_QUERY_PATTERN(n)      a[static_cast<A##n &>(Base::a##n)]
+#define XL_BIND_ARGUMENTS_QUERY(n)              XL_REPZ(XL_BIND_ARGUMENTS_QUERY_PATTERN, n, b, XL_COMMA)
 
 #endif
     template <int i>
@@ -150,10 +156,10 @@ namespace xl
                                                                     \
     XL_BIND_TYPENAME_LIST_PATTERN(n) operator [](PlaceHolder<n>)    \
     {                                                               \
-        return XL_BIND_VARIABLE_LIST_PATTERN(n);                    \
+        return XL_BIND_VARIABLE_LIST_PATTERN_B(n);                  \
     }
 
-#define XL_BIND_CALLLIST_OPERATOR_PLACEHOLDER(n)  XL_REPY(XL_BIND_CALLLIST_OPERATOR_PLACEHOLDER_PATTERN, n, XL_NIL)
+#define XL_BIND_CALLLIST_OPERATOR_PLACEHOLDER(n)    XL_REPY(XL_BIND_CALLLIST_OPERATOR_PLACEHOLDER_PATTERN, n, XL_NIL)
 
 #ifdef __XL_CPP11
 #define XL_BIND_CALLLIST_PATTERN(n)                                                                                 \
@@ -162,6 +168,7 @@ namespace xl
     class CallList<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))> :                                   \
         public BindArguments<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))>                           \
     {                                                                                                               \
+        typedef BindArguments<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))> Base;                    \
     public:                                                                                                         \
         CallList(XL_BIND_TYPENAME_VARIABLE(n)) :                                                                    \
             BindArguments<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))>(XL_BIND_VARIABLE_LIST(n))    \
@@ -185,6 +192,7 @@ namespace xl
     class CallList<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))> :                                   \
         public BindArguments<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))>                           \
     {                                                                                                               \
+        typedef BindArguments<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))> Base;                    \
     public:                                                                                                         \
         CallList(XL_BIND_TYPENAME_VARIABLE(n)) :                                                                    \
             BindArguments<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))>(XL_BIND_VARIABLE_LIST(n))    \
@@ -231,6 +239,7 @@ namespace xl
     class BindList<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))> :                                   \
         public BindArguments<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))>                           \
     {                                                                                                               \
+        typedef BindArguments<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))> Base;                    \
     public:                                                                                                         \
         BindList(XL_BIND_TYPENAME_VARIABLE(n)) :                                                                    \
             BindArguments<XL_EVAL(XL_CONN(XL_TYPELIST_, n), XL_BIND_TYPENAME_LIST(n))>(XL_BIND_VARIABLE_LIST(n))    \
@@ -255,7 +264,7 @@ namespace xl
     class BindT
     {
     public:
-        typedef typename Function<S>              FunctionType;
+        typedef Function<S>                       FunctionType;
         typedef typename FunctionType::ReturnType ReturnType;
 
     public:
@@ -317,12 +326,16 @@ namespace xl
     XL_BIND_MEMBER_FUNCTION_PARAM_0(XL_NIL)
 #else
     XL_BIND_FUNCTION_PARAM_0(__cdecl)
+#ifdef _MSC_VER
     XL_BIND_FUNCTION_PARAM_0(__stdcall)
     XL_BIND_FUNCTION_PARAM_0(__fastcall)
+#endif
     XL_BIND_MEMBER_FUNCTION_PARAM_0(__cdecl)
+#ifdef _MSC_VER
     XL_BIND_MEMBER_FUNCTION_PARAM_0(__stdcall)
     XL_BIND_MEMBER_FUNCTION_PARAM_0(__fastcall)
     XL_BIND_MEMBER_FUNCTION_PARAM_0(__thiscall)
+#endif
 #endif
 
 #define XL_BIND_FUNCTOR_PARAM(n)                                                                \
@@ -367,7 +380,7 @@ namespace xl
                        XL_BIND_VARIABLE_LIST(n)));                                                  \
     }
 
-#ifdef _M_X64
+#if defined(_M_X64) || !defined(_MSC_VER)
 
 #define XL_BIND_PARAM_PATTERN(n)                    \
                                                     \

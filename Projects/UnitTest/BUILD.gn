@@ -26,10 +26,12 @@ executable("UnitTest") {
     "Common/Objects/xlBigIntTest.cpp",
     "Common/Parser/xlRegExpTest.cpp",
     "Common/String/xlBase64Test.cpp",
-    "Common/String/xlEncodingTest.cpp",
     "Common/String/xlStringTest.cpp",
     "Main.cpp",
   ]
+  if (is_win) {
+    sources += [ "Common/String/xlEncodingTest.cpp" ]
+  }
 
   include_dirs = [ "../../Include" ]
   deps = [ "../../Include:xlLib" ]

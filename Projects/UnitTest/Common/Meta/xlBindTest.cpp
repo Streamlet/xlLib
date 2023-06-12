@@ -12,12 +12,16 @@
 
 #include "../../../../Include/xl/AppHelper/xlUnitTest.h"
 #include "../../../../Include/xl/Common/Meta/xlBind.h"
+#ifdef _WIN32
 #include "../../../../Include/xl/Windows/Threads/xlThread.h"
+#endif
 
 namespace
 {
     using namespace xl;
+#ifdef _WIN32
     using namespace xl::Windows;
+#endif
 
     int __cdecl cdecl0()
     {
@@ -39,6 +43,7 @@ namespace
         return a * 100 + b * 10 + c;
     }
 
+#ifdef _MSC_VER
     int __stdcall stdcall0()
     {
         return 0;
@@ -58,7 +63,9 @@ namespace
     {
         return a * 100 + b * 10 + c;
     }
+#endif
 
+#ifdef _MSC_VER
     int __fastcall fastcall0()
     {
         return 0;
@@ -78,6 +85,7 @@ namespace
     {
         return a * 100 + b * 10 + c;
     }
+#endif
 
     struct S
     {
@@ -101,6 +109,7 @@ namespace
             return a * 100 + b * 10 + c;
         }
 
+#ifdef _MSC_VER
         int __stdcall stdcall0()
         {
             return 0;
@@ -120,7 +129,9 @@ namespace
         {
             return a * 100 + b * 10 + c;
         }
+#endif
 
+#ifdef _MSC_VER
         int __fastcall fastcall0()
         {
             return 0;
@@ -140,7 +151,9 @@ namespace
         {
             return a * 100 + b * 10 + c;
         }
+#endif
 
+#ifdef _MSC_VER
         int __thiscall thiscall0()
         {
             return 0;
@@ -160,7 +173,7 @@ namespace
         {
             return a * 100 + b * 10 + c;
         }
-
+#endif
     } s;
 
     struct F
@@ -216,6 +229,7 @@ namespace
 
 #endif
 
+#ifdef _WIN32
     DWORD test_const_thread(HANDLE hQuitEvent, LPVOID pParam, const int i)
     {
         return i;
@@ -243,6 +257,7 @@ namespace
         return i;
     }
 
+#endif
 #endif
 
     XL_TEST_CASE()
@@ -295,6 +310,7 @@ namespace
         XL_TEST_ASSERT(Bind(cdecl3, 3, 2, 1)() == 321);
     }
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Bind(stdcall0)() == 0);
@@ -344,7 +360,9 @@ namespace
         XL_TEST_ASSERT(Bind(stdcall3, 3, 1, 2)() == 312);
         XL_TEST_ASSERT(Bind(stdcall3, 3, 2, 1)() == 321);
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Bind(fastcall0)() == 0);
@@ -394,6 +412,7 @@ namespace
         XL_TEST_ASSERT(Bind(fastcall3, 3, 1, 2)() == 312);
         XL_TEST_ASSERT(Bind(fastcall3, 3, 2, 1)() == 321);
     }
+#endif
 
     XL_TEST_CASE()
     {
@@ -445,6 +464,7 @@ namespace
         XL_TEST_ASSERT(Bind(&s, &S::cdecl3, 3, 2, 1)() == 321);
     }
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Bind(&s, &S::stdcall0)() == 0);
@@ -494,7 +514,9 @@ namespace
         XL_TEST_ASSERT(Bind(&s, &S::stdcall3, 3, 1, 2)() == 312);
         XL_TEST_ASSERT(Bind(&s, &S::stdcall3, 3, 2, 1)() == 321);
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Bind(&s, &S::fastcall0)() == 0);
@@ -544,7 +566,9 @@ namespace
         XL_TEST_ASSERT(Bind(&s, &S::fastcall3, 3, 1, 2)() == 312);
         XL_TEST_ASSERT(Bind(&s, &S::fastcall3, 3, 2, 1)() == 321);
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         XL_TEST_ASSERT(Bind(&s, &S::thiscall0)() == 0);
@@ -594,6 +618,7 @@ namespace
         XL_TEST_ASSERT(Bind(&s, &S::thiscall3, 3, 1, 2)() == 312);
         XL_TEST_ASSERT(Bind(&s, &S::thiscall3, 3, 2, 1)() == 321);
     }
+#endif
 
     XL_TEST_CASE()
     {
@@ -668,6 +693,7 @@ namespace
 #endif
     }
 
+#ifdef _WIN32
     XL_TEST_CASE()
     {
         int i = 0;
@@ -744,6 +770,6 @@ namespace
         }
 
 #endif
-
     }
+#endif
 }

@@ -23,7 +23,7 @@ namespace
 
         for (size_t i = 0; i < xl::MD5::DIGEST_LENGTH; ++i)
         {
-            sprintf_s(&szDigest[i * 2], 3, "%02x", digest[i]);
+            sprintf(&szDigest[i * 2], "%02x", digest[i]);
         }
 
         return szDigest;

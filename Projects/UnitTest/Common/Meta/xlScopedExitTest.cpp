@@ -66,6 +66,8 @@ namespace
         return a * 100 + b * 10 + c;
     }
 
+
+#ifdef _MSC_VER
     int __stdcall stdcall0()
     {
         return 0;
@@ -85,7 +87,9 @@ namespace
     {
         return a * 100 + b * 10 + c;
     }
+#endif
 
+#ifdef _MSC_VER
     int __fastcall fastcall0()
     {
         return 0;
@@ -105,6 +109,7 @@ namespace
     {
         return a * 100 + b * 10 + c;
     }
+#endif
 
     struct S
     {
@@ -128,6 +133,7 @@ namespace
             return a * 100 + b * 10 + c;
         }
 
+#ifdef _MSC_VER
         int __stdcall stdcall0()
         {
             return 0;
@@ -147,7 +153,9 @@ namespace
         {
             return a * 100 + b * 10 + c;
         }
+#endif
 
+#ifdef _MSC_VER
         int __fastcall fastcall0()
         {
             return 0;
@@ -167,7 +175,9 @@ namespace
         {
             return a * 100 + b * 10 + c;
         }
+#endif
 
+#ifdef _MSC_VER
         int __thiscall thiscall0()
         {
             return 0;
@@ -187,7 +197,7 @@ namespace
         {
             return a * 100 + b * 10 + c;
         }
-
+#endif
     } s;
 
     struct F
@@ -257,6 +267,7 @@ namespace
         }
     }
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         {
@@ -272,7 +283,9 @@ namespace
             XL_ON_BLOCK_EXIT(stdcall3, 1, 2, 3);
         }
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         {
@@ -288,6 +301,7 @@ namespace
             XL_ON_BLOCK_EXIT(fastcall3, 1, 2, 3);
         }
     }
+#endif
 
     XL_TEST_CASE()
     {
@@ -305,6 +319,7 @@ namespace
         }
     }
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         {
@@ -320,7 +335,9 @@ namespace
             XL_ON_BLOCK_EXIT(&s, &S::stdcall3, 1, 2, 3);
         }
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         {
@@ -336,7 +353,9 @@ namespace
             XL_ON_BLOCK_EXIT(&s, &S::fastcall3, 1, 2, 3);
         }
     }
+#endif
 
+#ifdef _MSC_VER
     XL_TEST_CASE()
     {
         {
@@ -352,6 +371,7 @@ namespace
             XL_ON_BLOCK_EXIT(&s, &S::thiscall3, 1, 2, 3);
         }
     }
+#endif
 
     XL_TEST_CASE()
     {
@@ -392,6 +412,3 @@ namespace
 #endif
     }
 }
-
-
-                             

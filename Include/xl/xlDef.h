@@ -36,9 +36,13 @@ namespace xl
 
 #elif defined(__GNUC__)
 
-#  if !defined(size_t)
+#if !defined(size_t)
+#if defined(__SIZE_TYPE__)
+    typedef __SIZE_TYPE__ size_t;
+#else
     typedef unsigned int size_t;
-#  endif
+#endif
+#endif
 
 #endif
 
