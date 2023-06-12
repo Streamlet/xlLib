@@ -88,9 +88,9 @@ namespace xl
         FunctionType m_fnFunctionPointer;
 
     public:
-        FunctionBase *Clone() const
+        FunctionBase<R, P>*Clone() const
         {
-            return m_fnFunctionPointer == nullptr ? nullptr : new FunctionPointerHandler(m_fnFunctionPointer);
+            return m_fnFunctionPointer == nullptr ? nullptr : new FunctionPointerHandler<R, P, F>(m_fnFunctionPointer);
         }
 
         ReturnType Invoke()
@@ -98,7 +98,7 @@ namespace xl
             return m_fnFunctionPointer();
         }
 
-        bool IsEqual(FunctionBase *pfn) const
+        bool IsEqual(FunctionBase<R, P>*pfn) const
         {
             if (pfn == nullptr)
             {
@@ -110,7 +110,7 @@ namespace xl
                 return true;
             }
 
-            FunctionPointerHandler *pfnFunctionHandler = dynamic_cast<FunctionPointerHandler *>(pfn);
+            FunctionPointerHandler<R, P, F>*pfnFunctionHandler = dynamic_cast<FunctionPointerHandler<R, P, F> *>(pfn);
 
             if (pfnFunctionHandler == nullptr)
             {
@@ -159,7 +159,7 @@ namespace xl
         FunctionType m_fnFunctor;
 
     public:
-        FunctionBase *Clone() const
+        FunctionBase<R, P>*Clone() const
         {
             return new FunctorHandler(m_fnFunctor);
         }
@@ -169,7 +169,7 @@ namespace xl
             return m_fnFunctor();
         }
 
-        bool IsEqual(FunctionBase *pfn) const
+        bool IsEqual(FunctionBase<R, P>*pfn) const
         {
             if (pfn == nullptr)
             {
@@ -222,7 +222,7 @@ namespace xl
         MemberFunctionType  m_fnFunction;
 
     public:
-        FunctionBase *Clone() const
+        FunctionBase<R, P>*Clone() const
         {
             return m_fnFunction == nullptr ? nullptr : new MemberFunctionHandler(m_pObject, m_fnFunction);
         }
@@ -232,7 +232,7 @@ namespace xl
             return (m_pObject->*m_fnFunction)();
         }
 
-        bool IsEqual(FunctionBase *pfn) const
+        bool IsEqual(FunctionBase<R, P>*pfn) const
         {
             if (pfn == nullptr)
             {

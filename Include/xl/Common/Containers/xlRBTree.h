@@ -725,6 +725,15 @@ namespace xl
         }
 
     public:
+#ifdef __XL_CPP11
+        typedef BinTreeIterator<T, NodeType> Iterator;
+        typedef ReverseBinTreeIterator<T, NodeType> ReverseIterator;
+#else
+        typedef BinTreeIteratorT<T, NodeType, false> Iterator;
+        typedef BinTreeIteratorT<T, NodeType, true> ReverseIterator;
+#endif
+
+    public:
         inline Iterator Find(const T &tValue) const
         {
             return Iterator(Find(tValue, m_pRoot));

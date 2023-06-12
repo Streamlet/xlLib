@@ -107,7 +107,7 @@ namespace xl
         {
             if (this != &that)
             {
-                m_tValue = (Ti)that.At<Index>();
+                m_tValue = (Tn)that.At<Index>();
             }
 
             return (ImplType &)*this;
@@ -246,19 +246,19 @@ namespace xl
         template <typename U>                                   \
         ImplType operator * (U factor) const                    \
         {                                                       \
-            return ImplType(*this) *= delta;                    \
+            return ImplType(*this) *= factor;                   \
         }                                                       \
                                                                 \
         template <typename U>                                   \
         ImplType operator / (U factor) const                    \
         {                                                       \
-            return ImplType(*this) /= delta;                    \
+            return ImplType(*this) /= factor;                   \
         }                                                       \
                                                                 \
         template <typename U>                                   \
         ImplType operator % (U factor) const                    \
         {                                                       \
-            return ImplType(*this) %= delta;                    \
+            return ImplType(*this) %= factor;                   \
         }                                                       \
                                                                 \
         template <typename I, typename... U>                    \

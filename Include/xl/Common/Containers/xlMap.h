@@ -104,10 +104,26 @@ namespace xl
             return it->Value;
         }
 
+    private:
+        typedef RBTreeNode<Pair<K, V>> NodeType;
+
     public:
-        // From Base
-        inline Iterator Delete(const Iterator &itWhere);
-        inline ReverseIterator Delete(const ReverseIterator &itWhere);
+#ifdef __XL_CPP11
+        typedef BinTreeIterator<Pair<K, V>, NodeType> Iterator;
+        typedef ReverseBinTreeIterator<Pair<K, V>, NodeType> ReverseIterator;
+#else
+        typedef BinTreeIteratorT<Pair<K, V>, NodeType, false> Iterator;
+        typedef BinTreeIteratorT<Pair<K, V>, NodeType, true> ReverseIterator;
+#endif
+
+    public:
+        inline Iterator Delete(const Iterator& itWhere) {
+            return  RBTree::Delete(itWhere);
+        };
+
+        inline ReverseIterator Delete(const ReverseIterator& itWhere) {
+            return  RBTree::Delete(itWhere);
+        }
 
         inline void Delete(const K &key)
         {

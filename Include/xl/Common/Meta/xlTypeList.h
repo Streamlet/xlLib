@@ -214,7 +214,7 @@ namespace xl
             return false;
         }
 
-        return TLForeachInternal<TLSplit<TL, 1>::Back, FN, P>(p, (TLSplit<TL, 1>::Back *)0);
+        return TLForeachInternal<typename TLSplit<TL, 1>::Back, FN, P>(p, (typename TLSplit<TL, 1>::Back *)0);
     }
 
     template <typename TL, template <typename> typename FN, typename P>

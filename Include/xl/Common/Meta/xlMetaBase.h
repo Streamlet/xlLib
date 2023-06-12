@@ -51,14 +51,14 @@ namespace xl
 
         }
 
-        TypeConverter(const T0 &t) : m_pData((S)t)
+        TypeConverter(const T0 &t) : TypeConverter<S, T...>::m_pData((S)t)
         {
 
         }
 
         operator T0() const
         {
-            return (T0)m_pData;
+            return (T0)TypeConverter<S, T...>::m_pData;
         }
     };
 
