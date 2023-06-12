@@ -1,4 +1,6 @@
 .*
+/build/
+/out/
 /bin/
 /obj/
 *.VC.db

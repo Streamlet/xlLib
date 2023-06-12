@@ -1,0 +1,5 @@
+executable("xlArrayTest") {
+  sources = [ "Main.cpp" ]
+  include_dirs = [ "../../../Include" ]
+  deps = [ "../../../Include:xlLib" ]
+}

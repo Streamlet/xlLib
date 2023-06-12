@@ -1,0 +1,11 @@
+group("PerformanceTest") {
+  deps = [
+    "xlArrayTest",
+    "xlBigIntTest",
+    "xlListTest",
+    "xlMapTest",
+    "xlMemoryTest",
+    "xlRegExpTest",
+    "xlSetTest",
+  ]
+}

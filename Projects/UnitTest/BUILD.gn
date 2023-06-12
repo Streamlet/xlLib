@@ -1,0 +1,34 @@
+executable("UnitTest") {
+  sources = [
+    "Common/Algorithm/xlSortTest.cpp",
+    "Common/Containers/xlArrayTest.cpp",
+    "Common/Containers/xlListTest.cpp",
+    "Common/Containers/xlMapTest.cpp",
+    "Common/Containers/xlPairTest.cpp",
+    "Common/Containers/xlRBTreeTest.cpp",
+    "Common/Containers/xlSetTest.cpp",
+    "Common/Cryption/xlCRC32Test.cpp",
+    "Common/Cryption/xlMD5Test.cpp",
+    "Common/Cryption/xlSHA1Test.cpp",
+    "Common/Math/xlBitValueTest.cpp",
+    "Common/Math/xlEquationTest.cpp",
+    "Common/Math/xlIntervalSetTest.cpp",
+    "Common/Math/xlIntervalTest.cpp",
+    "Common/Memory/xlMemoryTest.cpp",
+    "Common/Memory/xlSmartPtrTest.cpp",
+    "Common/Meta/xlBindTest.cpp",
+    "Common/Meta/xlFunctionTest.cpp",
+    "Common/Meta/xlScopedExitTest.cpp",
+    "Common/Meta/xlTupleTest.cpp",
+    "Common/Meta/xlTypeListTest.cpp",
+    "Common/Objects/xlBigIntTest.cpp",
+    "Common/Parser/xlRegExpTest.cpp",
+    "Common/String/xlBase64Test.cpp",
+    "Common/String/xlEncodingTest.cpp",
+    "Common/String/xlStringTest.cpp",
+    "Main.cpp",
+  ]
+
+  include_dirs = [ "../../Include" ]
+  deps = [ "../../Include:xlLib" ]
+}

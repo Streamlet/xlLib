@@ -1,0 +1,7 @@
+# SRCDEP.yaml
+# processed by https://github.com/Streamlet/srcdep, A simple, source code based dependency management tool.
+
+DEPS:
+  build:
+    GIT_REPO: https://github.com/Streamlet/gn_toolchain.git
+    GIT_TAG: master

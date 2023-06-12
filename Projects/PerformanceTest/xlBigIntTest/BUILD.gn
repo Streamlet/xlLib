@@ -1,0 +1,5 @@
+executable("xlBigIntTest") {
+  sources = [ "Main.cpp" ]
+  include_dirs = [ "../../../Include" ]
+  deps = [ "../../../Include:xlLib" ]
+}

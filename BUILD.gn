@@ -1,0 +1,13 @@
+group("all") {
+  deps = [
+    "Projects/PerformanceTest",
+    "Projects/UnitTest",
+  ]
+  if (is_win) {
+    deps += [
+      "Projects/Win32GUITest",
+      "Projects/Win32MessagingTest",
+      "Projects/Win32NetworkTest",
+    ]
+  }
+}
