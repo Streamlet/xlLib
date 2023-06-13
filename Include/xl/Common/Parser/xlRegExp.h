@@ -19,6 +19,12 @@
 #include "../Memory/xlSmartPtr.h"
 #include "../String/xlString.h"
 
+#ifdef _UNICODE
+#define _T(s) L ## s
+#else
+#define _T(s) s
+#endif
+
 namespace xl
 {
     class RegExp
@@ -233,21 +239,21 @@ namespace xl
         {
             switch (ch)
             {
-            case L'|':
-            case L'[':
-            case L']':
-            case L'-':
-            case L'^':
-            case L'?':
-            case L'+':
-            case L'*':
-            case L'(':
-            case L')':
-            case L'{':
-            case L'}':
-            case L',':
-            case L'\\':
-            case L'.':
+            case _T('|'):
+            case _T('['):
+            case _T(']'):
+            case _T('-'):
+            case _T('^'):
+            case _T('?'):
+            case _T('+'):
+            case _T('*'):
+            case _T('('):
+            case _T(')'):
+            case _T('{'):
+            case _T('}'):
+            case _T(','):
+            case _T('\\'):
+            case _T('.'):
                 return true;
             default:
                 break;
@@ -260,12 +266,12 @@ namespace xl
         {
             if (m_nCurrentPosition >= m_strRegExp.Length())
             {
-                return Token(L'\0', InvalidChar, 0);
+                return Token(_T('\0'), InvalidChar, 0);
             }
 
             Char ch = m_strRegExp[m_nCurrentPosition++];
 
-            if (ch == L'\\' &&
+            if (ch == _T('\\') &&
                 m_nCurrentPosition < m_strRegExp.Length() &&
                 IsSpecialCharacter(m_strRegExp[m_nCurrentPosition]))
             {
@@ -398,7 +404,7 @@ namespace xl
 
             Token token = LookAhead();
 
-            if (token.type != L'\0')
+            if (token.type != _T('\0'))
             {
                 return nullptr;
             }
@@ -438,7 +444,7 @@ namespace xl
         {
             Token token = LookAhead();
 
-            if (token.type != L'|')
+            if (token.type != _T('|'))
             {
                 Backward(token);
                 return pNode;
@@ -594,22 +600,22 @@ namespace xl
 
             switch (token.type)
             {
-            case L'?':
+            case _T('?'):
                 r.iMinRepeats = 0;
                 r.iMaxRepeats = 1;
                 break;
-            case L'+':
+            case _T('+'):
                 r.iMinRepeats = 1;
                 r.iMaxRepeats = -1;
                 break;
-            case L'*':
+            case _T('*'):
                 r.iMinRepeats = 0;
                 r.iMaxRepeats = -1;
                 break;
-            case L'{':
+            case _T('{'):
                 r = ParseRangeCounter();
                 token = LookAhead();
-                if (token.type != L'}')
+                if (token.type != _T('}'))
                 {
                     Backward(token);
                     r.iMinRepeats = -1;
@@ -650,7 +656,7 @@ namespace xl
             int i = Integer_Blank;
             Token token = LookAhead();
 
-            if (token.type != L',')
+            if (token.type != _T(','))
             {
                 Backward(token);
                 i = Integer_None;
@@ -689,9 +695,9 @@ namespace xl
             Token token = LookAhead();
             Integer i;
 
-            if (token.ch >= L'0' && token.ch <= L'9')
+            if (token.ch >= _T('0') && token.ch <= _T('9'))
             {
-                i.AddHighDigit(token.ch - L'0');
+                i.AddHighDigit(token.ch - _T('0'));
             }
             else
             {
@@ -706,7 +712,7 @@ namespace xl
             bool bGreedy = true;
             Token token = LookAhead();
 
-            if (token.type == L'?')
+            if (token.type == _T('?'))
             {
                 bGreedy = false;
             }
@@ -726,7 +732,7 @@ namespace xl
 
             if (token.type != InvalidChar)
             {
-                if (token.type == L'(')
+                if (token.type == _T('('))
                 {
                     Group group = ParseGroup();
                     pCurrent = ParseExpr(pNode);
@@ -738,7 +744,7 @@ namespace xl
 
                     token = LookAhead();
 
-                    if (token.type != L')')
+                    if (token.type != _T(')'))
                     {
                         Backward(token);
                         return nullptr;
@@ -774,7 +780,7 @@ namespace xl
             Group group(GroupType_Error);
             Token token = LookAhead();
 
-            if (token.type == L'?')
+            if (token.type == _T('?'))
             {
                 token = LookAhead();
 
@@ -813,7 +819,7 @@ namespace xl
                         {
                             token = LookAhead();
 
-                            if (token.type != L'>')
+                            if (token.type != _T('>'))
                             {
                                 group.eType = GroupType_Error;
                                 Backward(token);
@@ -849,7 +855,7 @@ namespace xl
                 Token token = LookAhead();
 
                 if (token.length != 1 || token.type != InvalidChar ||
-                    !(token.ch >= L'a' && token.ch <= 'z' || token.ch >= L'A' && token.ch <= 'Z' || token.ch >= L'0' && token.ch <= '9' || token.ch == L'_'))
+                    !(token.ch >= _T('a') && token.ch <= 'z' || token.ch >= _T('A') && token.ch <= 'Z' || token.ch >= _T('0') && token.ch <= '9' || token.ch == _T('_')))
                 {
                     Backward(token);
                     break;
@@ -869,39 +875,39 @@ namespace xl
 
             switch (token.type)
             {
-            case L'.':
-            {
-                is.Union(Interval<Char>(0, -1));
-                is.Exclude(Interval<Char>(L'\n'));
-                is.MakeClose(1);
-            }
-            break;
-            case L'\\':
-            {
-                IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
+            case _T('.'):
+                {
+                    is.Union(Interval<Char>(0, -1));
+                    is.Exclude(Interval<Char>(_T('\n')));
+                    is.MakeClose(1);
+                }
+                break;
+            case _T('\\'):
+                {
+                    IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
 
-                if (isCharSet.IsEmpty())
-                {
-                    return nullptr;
+                    if (isCharSet.IsEmpty())
+                    {
+                        return nullptr;
+                    }
+                    else
+                    {
+                        is = is.Union(isCharSet);
+                    }
                 }
-                else
+                break;
+            case _T('['):
                 {
-                    is = is.Union(isCharSet);
-                }
-            }
-            break;
-            case L'[':
-            {
-                bReverse = ParseReverser();
-                is = ParseIntervalSet();
+                    bReverse = ParseReverser();
+                    is = ParseIntervalSet();
 
                 token = LookAhead();
 
-                if (token.type != L']')
-                {
-                    Backward(token);
-                    return nullptr;
-                }
+                    if (token.type != _T(']'))
+                    {
+                        Backward(token);
+                        return nullptr;
+                    }
 
                 if (is.IsEmpty())
                 {
@@ -955,7 +961,7 @@ namespace xl
             bool bReverse = false;
             Token token = LookAhead();
 
-            if (token.type == L'^')
+            if (token.type == _T('^'))
             {
                 bReverse = true;
             }
@@ -993,16 +999,16 @@ namespace xl
 
             switch (token.type)
             {
-            case L'.':
-            {
-                is.Union(Interval<Char>(0, -1));
-                is.Exclude(Interval<Char>(L'\n'));
-                is.MakeClose(1);
-            }
-            break;
-            case L'\\':
-            {
-                IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
+            case _T('.'):
+                {
+                    is.Union(Interval<Char>(0, -1));
+                    is.Exclude(Interval<Char>(_T('\n')));
+                    is.MakeClose(1);
+                }
+                break;
+            case _T('\\'):
+                {
+                    IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
 
                 if (isCharSet.IsEmpty())
                 {
@@ -1033,77 +1039,77 @@ namespace xl
 
             switch (token.ch)
             {
-            case L'd':
-                is.Union(Interval<Char>(L'0', L'9'));
+            case _T('d'):
+                is.Union(Interval<Char>(_T('0'), _T('9')));
                 break;
-            case L'D':
+            case _T('D'):
                 is.Union(Interval<Char>(0, -1));
-                is.Exclude(Interval<Char>(L'0', L'9'));
+                is.Exclude(Interval<Char>(_T('0'), _T('9')));
                 is.MakeClose(1);
                 break;
-            case L'f':
-                is.Union(Interval<Char>(L'\x0c'));
+            case _T('f'):
+                is.Union(Interval<Char>(_T('\x0c')));
                 break;
-            case L'n':
-                is.Union(Interval<Char>(L'\x0a'));
+            case _T('n'):
+                is.Union(Interval<Char>(_T('\x0a')));
                 break;
-            case L'r':
-                is.Union(Interval<Char>(L'\x0d'));
+            case _T('r'):
+                is.Union(Interval<Char>(_T('\x0d')));
                 break;
-            case L's':
-                is.Union(Interval<Char>(L'\x09', L'\x0d'));
+            case _T('s'):
+                is.Union(Interval<Char>(_T('\x09'), _T('\x0d')));
                 break;
-            case L'S':
+            case _T('S'):
                 is.Union(Interval<Char>(0, -1));
-                is.Exclude(Interval<Char>(L'\x09', L'\x0d'));
+                is.Exclude(Interval<Char>(_T('\x09'), _T('\x0d')));
                 is.MakeClose(1);
                 break;
-            case L't':
-                is.Union(Interval<Char>(L'\x09'));
+            case _T('t'):
+                is.Union(Interval<Char>(_T('\x09')));
                 break;
-            case L'v':
-                is.Union(Interval<Char>(L'\x0b'));
+            case _T('v'):
+                is.Union(Interval<Char>(_T('\x0b')));
                 break;
-            case L'w':
-                is.Union(Interval<Char>(L'a', L'z'));
-                is.Union(Interval<Char>(L'A', L'Z'));
-                is.Union(Interval<Char>(L'0', L'9'));
-                is.Union(Interval<Char>(L'_'));
+            case _T('w'):
+                is.Union(Interval<Char>(_T('a'), _T('z')));
+                is.Union(Interval<Char>(_T('A'), _T('Z')));
+                is.Union(Interval<Char>(_T('0'), _T('9')));
+                is.Union(Interval<Char>(_T('_')));
                 break;
-            case L'W':
+            case _T('W'):
                 is.Union(Interval<Char>(0, -1));
-                is.Exclude(Interval<Char>(L'a', L'z'));
-                is.Exclude(Interval<Char>(L'A', L'Z'));
-                is.Exclude(Interval<Char>(L'0', L'9'));
-                is.Exclude(Interval<Char>(L'_'));
+                is.Exclude(Interval<Char>(_T('a'), _T('z')));
+                is.Exclude(Interval<Char>(_T('A'), _T('Z')));
+                is.Exclude(Interval<Char>(_T('0'), _T('9')));
+                is.Exclude(Interval<Char>(_T('_')));
                 is.MakeClose(1);
                 break;
-            case L'x':
-            {
-                int iValue = ParseHex0x(2);
-                if (iValue >= 0)
+            case _T('x'):
                 {
-                    is.Union(Interval<Char>((Char)iValue));
+                    int iValue = ParseHex0x(2);
+                    if (iValue >= 0)
+                    {
+                        is.Union(Interval<Char>((Char)iValue));
+                    }
+                    else
+                    {
+                        Backward(token);
+                    }
                 }
-                else
+                break;
+            case _T('u'):
                 {
-                    Backward(token);
+                    int iValue = ParseHex0x(4);
+                    if (iValue >= 0)
+                    {
+                        is.Union(Interval<Char>((Char)iValue));
+                    }
+                    else
+                    {
+                        Backward(token);
+                    }
                 }
-            }
-            break;
-            case L'u':
-            {
-                int iValue = ParseHex0x(4);
-                if (iValue >= 0)
-                {
-                    is.Union(Interval<Char>((Char)iValue));
-                }
-                else
-                {
-                    Backward(token);
-                }
-            }
-            break;
+                break;
                 break;
             default:
                 Backward(token);
@@ -1140,7 +1146,7 @@ namespace xl
             Interval<Char> i;
             Token token = LookAhead();
 
-            if (token.type != L'-')
+            if (token.type != _T('-'))
             {
                 Backward(token);
                 return i;
@@ -1168,17 +1174,17 @@ namespace xl
                 Token token = LookAhead();
                 arrBackwards.PushFront(token);
 
-                if (token.ch >= L'0' && token.ch <= L'9')
+                if (token.ch >= _T('0') && token.ch <= _T('9'))
                 {
-                    iValue = iValue * 0x10 + (token.ch - L'0');
+                    iValue = iValue * 0x10 + (token.ch - _T('0'));
                 }
-                else if (token.ch >= L'a' && token.ch <= L'f')
+                else if (token.ch >= _T('a') && token.ch <= _T('f'))
                 {
-                    iValue = iValue * 0x10 + (token.ch - L'a' + 10);
+                    iValue = iValue * 0x10 + (token.ch - _T('a') + 10);
                 }
-                else if (token.ch >= L'A' && token.ch <= L'F')
+                else if (token.ch >= _T('A') && token.ch <= _T('F'))
                 {
-                    iValue = iValue * 0x10 + (token.ch - L'A' + 10);
+                    iValue = iValue * 0x10 + (token.ch - _T('A') + 10);
                 }
                 else
                 {
