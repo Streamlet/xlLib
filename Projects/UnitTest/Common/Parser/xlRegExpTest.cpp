@@ -818,15 +818,15 @@ namespace
         XL_TEST_ASSERT(!r.Parse(_T("\\u597")));
         XL_TEST_ASSERT(r.Parse(_T("\\u597d")));
         XL_TEST_ASSERT(r.Parse(_T("\\u597de")));
-        XL_TEST_ASSERT(r.Match(_T("å¥½e")));
+        XL_TEST_ASSERT(r.Match(_T("ºÃe")));
 
         XL_TEST_ASSERT(r.Parse(_T("\\u4f60\\u597d")));
-        XL_TEST_ASSERT(r.Match(_T("ä½ å¥½")));
+        XL_TEST_ASSERT(r.Match(_T("ÄãºÃ")));
 
         XL_TEST_ASSERT(r.Parse(_T("[\\u4f60\\u597d]")));
-        XL_TEST_ASSERT(r.Match(_T("ä½ ")));
-        XL_TEST_ASSERT(r.Match(_T("å¥½")));
-        XL_TEST_ASSERT(!r.Match(_T("å‚»")));
+        XL_TEST_ASSERT(r.Match(_T("Äã")));
+        XL_TEST_ASSERT(r.Match(_T("ºÃ")));
+        XL_TEST_ASSERT(!r.Match(_T("Éµ")));
 #endif
     }
 
