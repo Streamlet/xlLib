@@ -74,7 +74,7 @@ namespace xl
             while (nBits > 0)
             {
                 size_t n = Min(sizeof(T) * 8 - nOffset, nBits);
-                r = (r << n) | (((SizeToUnignedIntType<sizeof(T)>::Type)*pData++ << nOffset) >> (sizeof(T) * 8 - n));
+                r = (r << n) | (((typename SizeToUnignedIntType<sizeof(T)>::Type)*pData++ << nOffset) >> (sizeof(T) * 8 - n));
                 nBits -= n;
                 nOffset = 0;
             }
@@ -85,6 +85,11 @@ namespace xl
 #ifdef __XL_CPP11
         template <typename R = unsigned int, typename T = unsigned int>
         inline R Eval(const T *pData, size_t nOffset, size_t nBits)
+        {
+            return EvalT<R, T>(pData, nOffset, nBits);
+        }
+        template <typename R = unsigned int, typename T = unsigned int>
+        inline R Eval(T *pData, size_t nOffset, size_t nBits)
         {
             return EvalT<R, T>(pData, nOffset, nBits);
         }

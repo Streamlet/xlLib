@@ -92,7 +92,11 @@ namespace xl
     typedef char    Char8,  CharA;
     typedef wchar_t Char16, CharW;
     typedef int     Char32;
+#ifdef _UNICODE
     typedef CharW   Char;
+#else
+    typedef CharA   Char;
+#endif
 
     typedef StringT<Char8>  StringU8;
     typedef StringT<Char16> StringU16;

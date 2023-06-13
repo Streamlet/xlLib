@@ -39,6 +39,11 @@ namespace xl
         }
 
     private:
+#ifdef _UNICODE
+        typedef wchar_t CharType;
+#else
+        typedef unsigned char CharType;
+#endif
         struct Node
         {
             Node() : m_nIdentify(++ms_nCounter), m_nPasses(0)
@@ -63,17 +68,17 @@ namespace xl
             {
             }
 
-            Edge(Char ch)
+            Edge(CharType ch)
                 : bReverse(false), bEpsilon(false), chBegin(ch), chEnd(ch), nMinNodePasses(0), nMaxNodePasses(-1), nRollbackChars(0)
             {
             }
 
-            Edge(Char chBegin, Char chEnd)
+            Edge(CharType chBegin, CharType chEnd)
                 : bReverse(false), bEpsilon(false), chBegin(chBegin), chEnd(chEnd), nMinNodePasses(0), nMaxNodePasses(-1), nRollbackChars(0)
             {
             }
 
-            bool MatchNoReverse(Char ch)
+            bool MatchNoReverse(CharType ch)
             {
                 if (bEpsilon)
                 {
@@ -83,7 +88,7 @@ namespace xl
                 return (ch >= chBegin && ch <= chEnd);
             }
 
-            bool Match(Char ch)
+            bool Match(CharType ch)
             {
                 bool bMatched = MatchNoReverse(ch);
                 return bReverse ? !bMatched : bMatched;
@@ -106,8 +111,8 @@ namespace xl
 
             bool bReverse;
             bool bEpsilon;
-            Char chBegin;
-            Char chEnd;
+            CharType chBegin;
+            CharType chEnd;
 
             // Rules
             int nMinNodePasses;
@@ -220,22 +225,22 @@ namespace xl
         }
 
     private:
-        static const Char InvalidChar = -1;
+        static const CharType InvalidChar = -1;
 
         struct Token
         {
-            Char type;
-            Char ch;
+            CharType type;
+            CharType ch;
             size_t length;
 
-            Token(Char type = InvalidChar, Char ch = InvalidChar, size_t length = 1)
+            Token(CharType type = InvalidChar, CharType ch = InvalidChar, size_t length = 1)
                 : type(type), ch(ch), length(length)
             {
             }
         };
 
     private:
-        bool IsSpecialCharacter(Char ch)
+        bool IsSpecialCharacter(CharType ch)
         {
             switch (ch)
             {
@@ -269,7 +274,7 @@ namespace xl
                 return Token(_T('\0'), InvalidChar, 0);
             }
 
-            Char ch = m_strRegExp[m_nCurrentPosition++];
+            CharType ch = m_strRegExp[m_nCurrentPosition++];
 
             if (ch == _T('\\') &&
                 m_nCurrentPosition < m_strRegExp.Length() &&
@@ -869,7 +874,7 @@ namespace xl
 
         StateMachine::NodePtr ParseCollection(StateMachine::NodePtr pNode)
         {
-            IntervalSet<Char> is;
+            IntervalSet<CharType> is;
             bool bReverse = false;
             Token token = LookAhead();
 
@@ -877,14 +882,14 @@ namespace xl
             {
             case _T('.'):
                 {
-                    is.Union(Interval<Char>(0, -1));
-                    is.Exclude(Interval<Char>(_T('\n')));
+                    is.Union(Interval<CharType>(0, -1));
+                    is.Exclude(Interval<CharType>(_T('\n')));
                     is.MakeClose(1);
                 }
                 break;
             case _T('\\'):
                 {
-                    IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
+                    IntervalSet<CharType> isCharSet = ParseCharSetDescriptor();
 
                     if (isCharSet.IsEmpty())
                     {
@@ -921,7 +926,7 @@ namespace xl
             }
 
             StateMachine::NodePtr pCurrent = nullptr;
-            Set<Interval<Char>> intervals = is.GetIntervals();
+            Set<Interval<CharType>> intervals = is.GetIntervals();
 
             if (bReverse)
             {
@@ -973,11 +978,11 @@ namespace xl
             return bReverse;
         }
 
-        IntervalSet<Char> ParseIntervalSet()
+        IntervalSet<CharType> ParseIntervalSet()
         {
-            IntervalSet<Char> is;
+            IntervalSet<CharType> is;
 
-            IntervalSet<Char> isItem = ParseIntervalSetItem();
+            IntervalSet<CharType> isItem = ParseIntervalSetItem();
 
             if (isItem.IsEmpty())
             {
@@ -986,29 +991,29 @@ namespace xl
 
             is = is.Union(isItem);
 
-            IntervalSet<Char> isPrime = ParseIntervalSet();
+            IntervalSet<CharType> isPrime = ParseIntervalSet();
             is = is.Union(isPrime);
 
             return is;
         }
 
-        IntervalSet<Char> ParseIntervalSetItem()
+        IntervalSet<CharType> ParseIntervalSetItem()
         {
-            IntervalSet<Char> is;
+            IntervalSet<CharType> is;
             Token token = LookAhead();
 
             switch (token.type)
             {
             case _T('.'):
                 {
-                    is.Union(Interval<Char>(0, -1));
-                    is.Exclude(Interval<Char>(_T('\n')));
+                    is.Union(Interval<CharType>(0, -1));
+                    is.Exclude(Interval<CharType>(_T('\n')));
                     is.MakeClose(1);
                 }
                 break;
             case _T('\\'):
                 {
-                    IntervalSet<Char> isCharSet = ParseCharSetDescriptor();
+                    IntervalSet<CharType> isCharSet = ParseCharSetDescriptor();
 
                 if (isCharSet.IsEmpty())
                 {
@@ -1023,7 +1028,7 @@ namespace xl
             default:
             {
                 Backward(token);
-                Interval<Char> i = ParseInterval();
+                Interval<CharType> i = ParseInterval();
                 is.Union(i);
             }
             break;
@@ -1032,56 +1037,56 @@ namespace xl
             return is;
         }
 
-        IntervalSet<Char> ParseCharSetDescriptor()
+        IntervalSet<CharType> ParseCharSetDescriptor()
         {
-            IntervalSet<Char> is;
+            IntervalSet<CharType> is;
             Token token = LookAhead();
 
             switch (token.ch)
             {
             case _T('d'):
-                is.Union(Interval<Char>(_T('0'), _T('9')));
+                is.Union(Interval<CharType>(_T('0'), _T('9')));
                 break;
             case _T('D'):
-                is.Union(Interval<Char>(0, -1));
-                is.Exclude(Interval<Char>(_T('0'), _T('9')));
+                is.Union(Interval<CharType>(0, -1));
+                is.Exclude(Interval<CharType>(_T('0'), _T('9')));
                 is.MakeClose(1);
                 break;
             case _T('f'):
-                is.Union(Interval<Char>(_T('\x0c')));
+                is.Union(Interval<CharType>(_T('\x0c')));
                 break;
             case _T('n'):
-                is.Union(Interval<Char>(_T('\x0a')));
+                is.Union(Interval<CharType>(_T('\x0a')));
                 break;
             case _T('r'):
-                is.Union(Interval<Char>(_T('\x0d')));
+                is.Union(Interval<CharType>(_T('\x0d')));
                 break;
             case _T('s'):
-                is.Union(Interval<Char>(_T('\x09'), _T('\x0d')));
+                is.Union(Interval<CharType>(_T('\x09'), _T('\x0d')));
                 break;
             case _T('S'):
-                is.Union(Interval<Char>(0, -1));
-                is.Exclude(Interval<Char>(_T('\x09'), _T('\x0d')));
+                is.Union(Interval<CharType>(0, -1));
+                is.Exclude(Interval<CharType>(_T('\x09'), _T('\x0d')));
                 is.MakeClose(1);
                 break;
             case _T('t'):
-                is.Union(Interval<Char>(_T('\x09')));
+                is.Union(Interval<CharType>(_T('\x09')));
                 break;
             case _T('v'):
-                is.Union(Interval<Char>(_T('\x0b')));
+                is.Union(Interval<CharType>(_T('\x0b')));
                 break;
             case _T('w'):
-                is.Union(Interval<Char>(_T('a'), _T('z')));
-                is.Union(Interval<Char>(_T('A'), _T('Z')));
-                is.Union(Interval<Char>(_T('0'), _T('9')));
-                is.Union(Interval<Char>(_T('_')));
+                is.Union(Interval<CharType>(_T('a'), _T('z')));
+                is.Union(Interval<CharType>(_T('A'), _T('Z')));
+                is.Union(Interval<CharType>(_T('0'), _T('9')));
+                is.Union(Interval<CharType>(_T('_')));
                 break;
             case _T('W'):
-                is.Union(Interval<Char>(0, -1));
-                is.Exclude(Interval<Char>(_T('a'), _T('z')));
-                is.Exclude(Interval<Char>(_T('A'), _T('Z')));
-                is.Exclude(Interval<Char>(_T('0'), _T('9')));
-                is.Exclude(Interval<Char>(_T('_')));
+                is.Union(Interval<CharType>(0, -1));
+                is.Exclude(Interval<CharType>(_T('a'), _T('z')));
+                is.Exclude(Interval<CharType>(_T('A'), _T('Z')));
+                is.Exclude(Interval<CharType>(_T('0'), _T('9')));
+                is.Exclude(Interval<CharType>(_T('_')));
                 is.MakeClose(1);
                 break;
             case _T('x'):
@@ -1089,7 +1094,7 @@ namespace xl
                     int iValue = ParseHex0x(2);
                     if (iValue >= 0)
                     {
-                        is.Union(Interval<Char>((Char)iValue));
+                        is.Union(Interval<CharType>((CharType)iValue));
                     }
                     else
                     {
@@ -1102,7 +1107,7 @@ namespace xl
                     int iValue = ParseHex0x(4);
                     if (iValue >= 0)
                     {
-                        is.Union(Interval<Char>((Char)iValue));
+                        is.Union(Interval<CharType>((CharType)iValue));
                     }
                     else
                     {
@@ -1119,9 +1124,9 @@ namespace xl
             return is;
         }
 
-        Interval<Char> ParseInterval()
+        Interval<CharType> ParseInterval()
         {
-            Interval<Char> i;
+            Interval<CharType> i;
             Token token = LookAhead();
 
             if (token.type != InvalidChar)
@@ -1130,8 +1135,8 @@ namespace xl
                 return i;
             }
 
-            i = Interval<Char>(token.ch);
-            Interval<Char> iSuffix = ParseIntervalSuffix();
+            i = Interval<CharType>(token.ch);
+            Interval<CharType> iSuffix = ParseIntervalSuffix();
 
             if (!iSuffix.IsEmpty())
             {
@@ -1141,9 +1146,9 @@ namespace xl
             return i;
         }
 
-        Interval<Char> ParseIntervalSuffix()
+        Interval<CharType> ParseIntervalSuffix()
         {
-            Interval<Char> i;
+            Interval<CharType> i;
             Token token = LookAhead();
 
             if (token.type != _T('-'))
@@ -1160,7 +1165,7 @@ namespace xl
                 return i;
             }
 
-            i = Interval<Char>(token.ch);
+            i = Interval<CharType>(token.ch);
             return i;
         }
 
@@ -1205,7 +1210,7 @@ namespace xl
         }
 
     private:
-        StateMachine::NodePtr AddNormalNode(StateMachine::NodePtr pNodeFrom, Char chEdgeChar)
+        StateMachine::NodePtr AddNormalNode(StateMachine::NodePtr pNodeFrom, CharType chEdgeChar)
         {
             StateMachine::EdgePtr pEdge = NewEdge(chEdgeChar);
             StateMachine::NodePtr pNode = NewNode();
@@ -1227,12 +1232,12 @@ namespace xl
             return new StateMachine::EdgeType();
         }
 
-        StateMachine::EdgePtr NewEdge(Char ch)
+        StateMachine::EdgePtr NewEdge(CharType ch)
         {
             return new StateMachine::EdgeType(Edge(ch));
         }
 
-        StateMachine::EdgePtr NewEdge(Char chBegin, Char chEnd)
+        StateMachine::EdgePtr NewEdge(CharType chBegin, CharType chEnd)
         {
             return new StateMachine::EdgeType(Edge(chBegin, chEnd));
         }

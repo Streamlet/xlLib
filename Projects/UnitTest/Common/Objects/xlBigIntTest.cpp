@@ -48,10 +48,14 @@ namespace
         XL_TEST_ASSERT(BigInt((unsigned short)-4) == 0xfffc);
         XL_TEST_ASSERT(BigInt((int)-5) == -5);
         XL_TEST_ASSERT(BigInt((unsigned int)-6) == 0xfffffffa);
-        XL_TEST_ASSERT(BigInt((long)-7) == -7);
-        XL_TEST_ASSERT(BigInt((unsigned long)-8) == 0xfffffff8);
-        XL_TEST_ASSERT(BigInt((long long)-9) == -9);
-        XL_TEST_ASSERT(BigInt((unsigned long long)-10) == 0xfffffffffffffff6);
+        XL_TEST_ASSERT(BigInt((long)-7) == -7L);
+#if defined(_MSC_VER) || !defined(__x86_64__)
+        XL_TEST_ASSERT(BigInt((unsigned long)-8) == 0xfffffff8UL);
+#else
+        XL_TEST_ASSERT(BigInt((unsigned long)-8) == 0xfffffffffffffff8UL);
+#endif
+        XL_TEST_ASSERT(BigInt((long long)-9) == -9LL);
+        XL_TEST_ASSERT(BigInt((unsigned long long)-10) == 0xfffffffffffffff6ULL);
     }
 
     XL_TEST_CASE()
@@ -191,7 +195,11 @@ namespace
         XL_TEST_ASSERT(a.ToChar() == (char)0xf0);
         XL_TEST_ASSERT(a.ToShort() == (short)0xdef0);
         XL_TEST_ASSERT(a.ToInt() == 0x0abcdef0);
+#if defined(_MSC_VER) || !defined(__x86_64__)
         XL_TEST_ASSERT(a.ToLong() == 0x0abcdef0);
+#else
+        XL_TEST_ASSERT(a.ToLong() == 0x234567890abcdef0);
+#endif
         XL_TEST_ASSERT(a.ToLongLong() == 0x234567890abcdef0);
     }
 
