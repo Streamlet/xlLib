@@ -1,6 +1,4 @@
 executable("UnitTest") {
-  configs += [ "../../build_config:project_common" ]
-
   sources = [
     "Common/Algorithm/xlSortTest.cpp",
     "Common/Containers/xlArrayTest.cpp",

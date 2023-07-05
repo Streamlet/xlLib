@@ -1,10 +1,6 @@
 assert(is_win)
 
 executable("Win32MessagingTest") {
-  configs += [
-    "../../build_config:project_common",
-    "../../build/config/win:windows_subsystem",
-  ]
   sources = [ "Main.cpp" ]
   libs = [
     "gdi32.lib",
