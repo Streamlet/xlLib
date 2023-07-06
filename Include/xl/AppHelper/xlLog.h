@@ -5,7 +5,7 @@
 //    File Name:   xlLog.h
 //    Author:      Streamlet
 //    Create Time: 2015-02-25
-//    Description: 
+//    Description:
 //
 //    Version history:
 //
@@ -15,13 +15,13 @@
 #ifndef __XLLOG_H_D66E7ECF_5480_47E4_B502_6ACDA54CEE61_INCLUDED__
 #define __XLLOG_H_D66E7ECF_5480_47E4_B502_6ACDA54CEE61_INCLUDED__
 
-
 #include "../Common/Meta/xlMacros.h"
 #include "../Common/Meta/xlScopeExit.h"
 #include "../Common/String/xlString.h"
 #include "../Windows/Threads/xlCriticalSection.h"
 #include "../Windows/xlHandle.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 // Define following macros before include this file
 // #define XL_LOG_PREFIX L"[LogPrefix] "           // Log prefix
@@ -214,60 +214,59 @@ namespace xl
                 PrintMessage(strLevel, szMessage, strSourceFile, strFunctionName, strLine);
             }
 
-#define XL_LOG_FILE        XL_CONN(L, __FILE__)
-#define XL_LOG_FUNC        XL_CONN(L, __FUNCTION__)
-#define XL_LOG_LINE        XL_CONN(L, XL_TOSTR(__LINE__))
+#define XL_LOG_FILE XL_CONN(L, __FILE__)
+#define XL_LOG_FUNC XL_CONN(L, __FUNCTION__)
+#define XL_LOG_LINE XL_CONN(L, XL_TOSTR(__LINE__))
 
-#define XL_LOG_LEVEL_S_FATAL    L"Fatal:  "
-#define XL_LOG_LEVEL_S_ERROR    L"Error:  "
-#define XL_LOG_LEVEL_S_WARNING  L"Warning:"
-#define XL_LOG_LEVEL_S_INFO     L"Info:   "
-#define XL_LOG_LEVEL_S_VERBOSE  L"Verbose:"
+#define XL_LOG_LEVEL_S_FATAL L"Fatal:  "
+#define XL_LOG_LEVEL_S_ERROR L"Error:  "
+#define XL_LOG_LEVEL_S_WARNING L"Warning:"
+#define XL_LOG_LEVEL_S_INFO L"Info:   "
+#define XL_LOG_LEVEL_S_VERBOSE L"Verbose:"
 
-#define XL_LOG_FUNCTION(level)      ::xl::AppHelper::Log::LogEnterFunction(level, XL_LOG_FILE, XL_LOG_FUNC, XL_LOG_LINE); \
-                                    XL_ON_BLOCK_EXIT(::xl::AppHelper::Log::LogLeaveFunction, level, XL_LOG_FILE, XL_LOG_FUNC, XL_LOG_LINE)
-#define XL_LOG(level, format, ...)  ::xl::AppHelper::Log::LogFormat(level, XL_LOG_FILE, XL_LOG_FUNC, XL_LOG_LINE, format, __VA_ARGS__)
-
+#define XL_LOG_FUNCTION(level)                                                            \
+    ::xl::AppHelper::Log::LogEnterFunction(level, XL_LOG_FILE, XL_LOG_FUNC, XL_LOG_LINE); \
+    XL_ON_BLOCK_EXIT(::xl::AppHelper::Log::LogLeaveFunction, level, XL_LOG_FILE, XL_LOG_FUNC, XL_LOG_LINE)
+#define XL_LOG(level, format, ...) ::xl::AppHelper::Log::LogFormat(level, XL_LOG_FILE, XL_LOG_FUNC, XL_LOG_LINE, format, __VA_ARGS__)
 
 #ifdef XL_LOG_LEVEL_FATAL
-#define XL_LOG_FATAL_FUNCTION()     XL_LOG_FUNCTION(XL_LOG_LEVEL_S_FATAL)
+#define XL_LOG_FATAL_FUNCTION() XL_LOG_FUNCTION(XL_LOG_LEVEL_S_FATAL)
 #else
 #define XL_LOG_FATAL_FUNCTION()
 #endif
 
 #ifdef XL_LOG_LEVEL_ERROR
-#define XL_LOG_ERROR_FUNCTION()     XL_LOG_FUNCTION(XL_LOG_LEVEL_S_ERROR)
+#define XL_LOG_ERROR_FUNCTION() XL_LOG_FUNCTION(XL_LOG_LEVEL_S_ERROR)
 #else
 #define XL_LOG_ERROR_FUNCTION()
 #endif
 
 #ifdef XL_LOG_LEVEL_WARNING
-#define XL_LOG_WARNING_FUNCTION()   XL_LOG_FUNCTION(XL_LOG_LEVEL_S_WARNING)
+#define XL_LOG_WARNING_FUNCTION() XL_LOG_FUNCTION(XL_LOG_LEVEL_S_WARNING)
 #else
 #define XL_LOG_WARNING_FUNCTION()
 #endif
 
 #ifdef XL_LOG_LEVEL_INFO
-#define XL_LOG_INFO_FUNCTION()      XL_LOG_FUNCTION(XL_LOG_LEVEL_S_INFO)
+#define XL_LOG_INFO_FUNCTION() XL_LOG_FUNCTION(XL_LOG_LEVEL_S_INFO)
 #else
 #define XL_LOG_INFO_FUNCTION()
 #endif
 
 #ifdef XL_LOG_LEVEL_VERBOSE
-#define XL_LOG_VERBOSE_FUNCTION()   XL_LOG_FUNCTION(XL_LOG_LEVEL_S_VERBOSE)
+#define XL_LOG_VERBOSE_FUNCTION() XL_LOG_FUNCTION(XL_LOG_LEVEL_S_VERBOSE)
 #else
 #define XL_LOG_VERBOSE_FUNCTION()
 #endif
 
-
 #ifdef XL_LOG_LEVEL_FATAL
-#define XL_LOG_FATAL(format, ...)   XL_LOG(XL_LOG_LEVEL_S_FATAL,   format, __VA_ARGS__)
+#define XL_LOG_FATAL(format, ...) XL_LOG(XL_LOG_LEVEL_S_FATAL, format, __VA_ARGS__)
 #else
 #define XL_LOG_FATAL(format, ...)
 #endif
 
 #ifdef XL_LOG_LEVEL_ERROR
-#define XL_LOG_ERROR(format, ...)   XL_LOG(XL_LOG_LEVEL_S_ERROR,   format, __VA_ARGS__)
+#define XL_LOG_ERROR(format, ...) XL_LOG(XL_LOG_LEVEL_S_ERROR, format, __VA_ARGS__)
 #else
 #define XL_LOG_ERROR(format, ...)
 #endif
@@ -279,7 +278,7 @@ namespace xl
 #endif
 
 #ifdef XL_LOG_LEVEL_INFO
-#define XL_LOG_INFO(format, ...)    XL_LOG(XL_LOG_LEVEL_S_INFO,    format, __VA_ARGS__)
+#define XL_LOG_INFO(format, ...) XL_LOG(XL_LOG_LEVEL_S_INFO, format, __VA_ARGS__)
 #else
 #define XL_LOG_INFO(format, ...)
 #endif
@@ -290,9 +289,8 @@ namespace xl
 #define XL_LOG_VERBOSE(format, ...)
 #endif
 
-
         } // namespace Log
-    } // namespace AppHelper
+    }     // namespace AppHelper
 } // namespace xl
 
 #endif // #ifndef __XLLOG_H_D66E7ECF_5480_47E4_B502_6ACDA54CEE61_INCLUDED__
