@@ -16,6 +16,7 @@
 #include "../../Common/Meta/xlNonCopyable.h"
 #include "../Threads/xlTls.h"
 #include "../xlWin32Ver.h"
+#include "xlDPI.h"
 #include "xlThunk.h"
 #include "xlWindowMessage.h"
 #include "xlWindowHelper.h"
@@ -87,10 +88,10 @@ namespace xl
                                            lpClassName,
                                            lpWindowName,
                                            dwStyle,
-                                           x,
-                                           y,
-                                           nWidth,
-                                           nHeight,
+                                           XL_DPI_X(x),
+                                           XL_DPI_Y(y),
+                                           XL_DPI_X(nWidth),
+                                           XL_DPI_Y(nHeight),
                                            hParent,
                                            hMenu,
                                            hInstance,
