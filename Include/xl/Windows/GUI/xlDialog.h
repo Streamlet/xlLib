@@ -14,6 +14,7 @@
 
 
 #include "xlWindow.h"
+#include "xlDPI.h"
 
 namespace xl
 {
@@ -76,8 +77,8 @@ namespace xl
                     rect.bottom = GetSystemMetrics(SM_CYSCREEN);
                 }
 
-                int x = (rect.left + rect.right - nWidth) / 2;
-                int y = (rect.top + rect.bottom - nHeight) / 2;
+                int x = (XL_DPI_R_X(rect.left + rect.right) - nWidth) / 2;
+                int y = (XL_DPI_R_Y(rect.top + rect.bottom) - nHeight) / 2;
 
                 if (!Window::Create(hOwner,
                                     x,
